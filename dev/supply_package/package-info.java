@@ -1,5 +1,3 @@
 package supply_package;
 
-public class Report {
-
-}
+import java.util.Date;
