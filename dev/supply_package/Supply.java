@@ -59,7 +59,7 @@ public class Supply {
 
 
     public void insert_item(Item item){ //TODO add to requirement section that shop is getting filled first and then storage
-        
+
     }
 
 
