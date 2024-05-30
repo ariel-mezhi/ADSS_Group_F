@@ -1,4 +1,4 @@
 package supply_package;
 
-public class Type_item {
+public class Storage {
 }
