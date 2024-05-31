@@ -28,21 +28,26 @@ public class Supply {
         else return item1;
     }
 
-    public void changeStatus(int serialNum){ //TODO: add to faulty report;
+    public void removeItem(int serialNum){ //TODO: add to faulty report;
+
+
+    }
+
+    public void faulty_item_found(int serialNum){
         Item item = getItem(serialNum);
         if (item == null){
             return;
         }
         item.setFaultyStatus();
+        boolean was_deleted;
         if (item.getLocation() == "storage" ){
-            storage.removeItem(serialNum);
+            was_deleted= storage.removeItem(serialNum);
+            if(was_deleted)
+                item.kamot--; //TODO add attribute
         }
         else {
-            shop.removeItem(serialNum);
+            was_deleted = shop.removeItem(serialNum);
         }
-
-
-
     }
 
     public void supplyReport(String category){
@@ -58,8 +63,8 @@ public class Supply {
     }
 
 
-    public void insert_item(Item item){ //TODO add to requirement section that shop is getting filled first and then storage
-
+    public void insertItem(Item item){ //TODO add to requirement section that shop is getting filled first and then storage
+        //check if item is valid
     }
 
 
