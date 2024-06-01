@@ -12,7 +12,7 @@ public class Storage {
     public boolean removeItem(int serialnum){
         for (int i = 0; i < storageitems.size(); i++) {
             Item item = storageitems.get(i);
-            if(item.makat == serialnum) {
+            if(item.getSerialNum() == serialnum) {
                 storageitems.remove(item);
                 return true;
             }
@@ -23,13 +23,13 @@ public class Storage {
     public Item getItem(int serialnum){
         for (int i = 0; i < storageitems.size(); i++) {
             Item item = storageitems.get(i);
-            if(item.makat == serialnum)
+            if(item.getSerialNum() == serialnum)
                 return item;
         }
         return null;
     }
 
-    public void insertItem(Item item){
+    public void addItem(Item item){
         storageitems.add(item);
     }
 }

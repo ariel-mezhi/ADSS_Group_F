@@ -3,28 +3,27 @@ package supply_package;
 import java.util.ArrayList;
 import java.util.List;
 public class Shelf {
-    private static int shelf_id_generator;
     private List<Item> items_on_shelf;
-    private final int shelf_id;
+    private final String shelf_sub_category;
     private int amount_on_shelf;
     private int max_items;
-    public Shelf() {
+    public Shelf(String shelf_sub_category) {
         this.max_items = 20;
         amount_on_shelf = 0;
-        this.shelf_id = shelf_id_generator;
+        this.shelf_sub_category = shelf_sub_category;
         items_on_shelf = new ArrayList<Item>();
-        shelf_id_generator++;
     }
 
-    public int getShelf_id() {
-        return shelf_id;
+    public String getShelf_sub_category() {
+        return shelf_sub_category;
     }
 
-    public boolean add_to_shelf(Item cur_item){
+    public boolean add_to_shelf(Item cur_item,String location_path){
         if(amount_on_shelf == max_items)
             return false;
         items_on_shelf.add(cur_item);
         amount_on_shelf++;
+        cur_item.setLocation(location_path);
         return true;
 
     }
@@ -35,10 +34,12 @@ public class Shelf {
         amount_on_shelf--;
         return true;
     }
-    public Item get_item_index(int i){
-        if(i<=items_on_shelf.size())
-            return items_on_shelf.get(i);
-        else return null;
+    public Item getItem(int serialNum){
+        for (int i = 0; i < amount_on_shelf; i++) {
+            if (serialNum == items_on_shelf.get(i).getSerialNum())
+                return items_on_shelf.get(i);
+        }
+        return null;
     }
 
     public int getAmount_on_shelf(){
