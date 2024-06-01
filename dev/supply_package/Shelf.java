@@ -24,6 +24,7 @@ public class Shelf {
         items_on_shelf.add(cur_item);
         amount_on_shelf++;
         cur_item.setLocation(location_path);
+        cur_item.setShelf_of_item(this);
         return true;
 
     }

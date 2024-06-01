@@ -15,6 +15,8 @@ public class Item_type {
     private float selling_price;
     private final float cost_price;
 
+    private int minimal_amount;
+
     // discount??
 
     public Item_type(int type_id, String producer, String category, String sub_category
@@ -26,10 +28,18 @@ public class Item_type {
         this.size = size;
         this.amount_on_shelves = 0;
         this.amount_in_storage = 0;
+        this.minimal_amount = 0;
         this.cost_price = cost_price;
         this.selling_price = cost_price; // there isnt any provided selling price thus it will be default as cost price
     }
 
+    public int getMinimal_amount() {
+        return minimal_amount;
+    }
+
+    public void setMinimal_amount(int minimal_amount) {
+        this.minimal_amount = minimal_amount;
+    }
 
     public int getType_id() {
         return type_id;
