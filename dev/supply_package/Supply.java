@@ -122,6 +122,14 @@ public class Supply {
         }
     }
 
+    public Item_type getType(int type_id){
+        for (int i = 0; i < itemTypes.size(); i++) {
+            if(type_id == itemTypes.get(i).getType_id())
+                return itemTypes.get(i);
+        }
+        return null;
+    }
+
 
     //public void add_to_def_report(Item item){
     //    Item_type item_type = item.getType();

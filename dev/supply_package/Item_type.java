@@ -78,7 +78,7 @@ public class Item_type {
         this.amount_in_storage = amount_in_storage;
     }
 
-    public float getSelling_pricce() {
+    public float getSelling_price() {
         return selling_price;
     }
 

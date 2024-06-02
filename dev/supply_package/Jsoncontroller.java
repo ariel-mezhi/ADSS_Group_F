@@ -1,0 +1,81 @@
+package supply_package;
+
+import com.google.gson.JsonObject;
+
+public class Jsoncontroller {
+
+    private Supply supply;
+
+    public Jsoncontroller(Supply supply){
+        this.supply = supply;
+    }
+
+    public int get_serial_num (JsonObject json){
+        return json.get("serialnumber").getAsInt();
+    }
+
+    public int get_item_type(JsonObject json){
+        return json.get("type_id").getAsInt();
+    }
+
+    public void report_faulty_item(JsonObject json){
+        int serialNum = get_serial_num(json);
+        String faulty_des = json.get("faulty_description").getAsString();
+        this.supply.set_faulty_item(serialNum,faulty_des);
+    }
+
+    public float get_item_selling_price(JsonObject json){
+        int type_id = get_item_type(json);
+        Item_type type = supply.getType(type_id);
+        return type.getSelling_price();
+    }
+
+    public String get_item_location(JsonObject json){
+        int serialNum = get_serial_num(json);
+        return supply.getItem(serialNum).getLocation();
+    }
+
+    public String get_item_manufacturer(JsonObject json){
+        int serial_Num = get_serial_num(json);
+        Item item = supply.getItem(serial_Num);
+        return item.getType().getProducer();
+    }
+
+    public int get_cur_amount_type(JsonObject json){
+        int type_id = get_item_type(json);
+        Item_type type = supply.getType(type_id);
+        return type.get_total_amount();
+    }
+
+    public int get_cur_amount_type_shelves(JsonObject json){
+        int type_id = get_item_type(json);
+        Item_type type = supply.getType(type_id);
+        return type.getAmount_on_shelves();
+    }
+
+    public int get_cur_amount_type_storage(JsonObject json){
+        int type_id = get_item_type(json);
+        Item_type type = supply.getType(type_id);
+        return type.getAmount_in_storage();
+    }
+
+    public float get_item_cost_price(JsonObject json){
+        int type_id = get_item_type(json);
+        Item_type type = supply.getType(type_id);
+        return type.getCost_price();
+    }
+
+    public void create_supply_report(JsonObject json){
+        String category = json.get("categories").getAsString();
+        supply.supplyReport(category);
+    }
+
+    public void create_faulty_report(){
+        supply.send_faulty_report();
+    }
+
+    public void remove_item(JsonObject json){
+        int serial_Num = get_serial_num(json);
+        supply.removeItem(serial_Num);
+    }
+}

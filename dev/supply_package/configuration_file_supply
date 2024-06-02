@@ -1,0 +1,18 @@
+date
+1 5 2024
+passwords
+manager 1111
+worker 2222
+cashier 3333
+items:
+10,tara,dairy,milk,100,5,
+
+
+int type_id, String producer, String category, String sub_category
+            , String size, float cost_price, Date exprdate, Date creation_date
+
+
+
+
+
+end items
