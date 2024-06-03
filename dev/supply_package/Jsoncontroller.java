@@ -78,4 +78,15 @@ public class Jsoncontroller {
         int serial_Num = get_serial_num(json);
         supply.removeItem(serial_Num);
     }
+
+    public void pass_days(int days){
+        supply.pass_days(days);
+    }
+
+    public void set_sale(JsonObject json){
+        int days = json.get("days").getAsInt();
+        int precentage = json.get("precentage").getAsInt();
+        int item_id = json.get("item_id").getAsInt();
+        supply.set_sale(days,item_id,precentage);
+    }
 }

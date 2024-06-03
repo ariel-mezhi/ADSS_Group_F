@@ -1,5 +1,6 @@
 package supply_package;
 
+import java.util.Date;
 import java.util.List;
 
 public class Item_type {
@@ -16,8 +17,9 @@ public class Item_type {
     private final float cost_price;
 
     private int minimal_amount;
+    private int precentage_sale;
 
-    // discount??
+    private int amount_of_days_left_sale;
 
     public Item_type(int type_id, String producer, String category, String sub_category
             , String size,float cost_price) {
@@ -31,6 +33,8 @@ public class Item_type {
         this.minimal_amount = 0;
         this.cost_price = cost_price;
         this.selling_price = cost_price; // there isnt any provided selling price thus it will be default as cost price
+        precentage_sale = 0;
+        amount_of_days_left_sale = 0;
     }
 
     public int getMinimal_amount() {
@@ -79,10 +83,10 @@ public class Item_type {
     }
 
     public float getSelling_price() {
-        return selling_price;
+        return selling_price - (selling_price* precentage_sale)/100;
     }
 
-    public void setSelling_pricce(float selling_pricce) {
+    public void setSelling_price(float selling_pricce) {
         this.selling_price = selling_pricce;
     }
 
@@ -94,4 +98,20 @@ public class Item_type {
         return amount_in_storage + amount_on_shelves;
     }
 
+    public int getPrecentage_sale() {
+        return precentage_sale;
+    }
+
+    public void setPrecentage_sale(int precentage_sale) {
+        this.precentage_sale = precentage_sale;
+    }
+
+    public int getAmount_of_days_left_sale() {
+        return amount_of_days_left_sale;
+    }
+
+    public void setAmount_of_days_left_sale(int amount_of_days_left_sale) {
+        this.amount_of_days_left_sale = amount_of_days_left_sale;
+    }
 }
+

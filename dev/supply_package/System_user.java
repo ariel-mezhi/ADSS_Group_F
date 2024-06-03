@@ -71,7 +71,9 @@ public class System_user {
         System.out.print("7.Get cost price of item type(provide item type id) \n");
         System.out.print("8.Get current supply report \n"); // continue interaction with more prints
         System.out.print("9.Get current faulty item report \n");
-        System.out.print("10.Exit \n");
+        System.out.print("10.Pass days in system(provide amount of days)");
+        System.out.print("11.Enter sale for items");
+        System.out.print("12.Exit \n");
     }
 
     public void get_answer_manager(){
@@ -122,6 +124,24 @@ public class System_user {
             }
             case 9 -> jcontroller.create_faulty_report();
             case 10 -> {
+                System.out.print("Enter amount of days to pass?\n");
+                user_input = scanner.nextInt();
+                jcontroller.pass_days(user_input);
+            }
+            case 11 -> {
+                System.out.print("Enter amount of days to the sale ");
+                int amount_of_days = scanner.nextInt();
+                System.out.print("Enter precentage of sale");
+                user_input = scanner.nextInt();
+                System.out.print("Enter item id");
+                int item_id = scanner.nextInt();
+                JsonObject json11 = new JsonObject();
+                json11.addProperty("days", amount_of_days);
+                json11.addProperty("precentage", user_input);
+                json11.addProperty("item_id", item_id);
+                jcontroller.set_sale(json11);
+            }
+            case 12 -> {
                 return;
             }
             default -> {

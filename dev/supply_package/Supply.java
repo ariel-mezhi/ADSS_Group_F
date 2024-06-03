@@ -11,6 +11,7 @@ public class Supply {
     private List<Item_type> itemTypes;
     private FaultyReport faultyReport;
     private Date cur_date;
+    private int days_counter_from_report;
 
     public Supply(){
         this.cur_date = new Date(2000, Calendar.JANUARY,25);
@@ -18,6 +19,7 @@ public class Supply {
         this.storage = new Storage();
         this.shop = new Shop();
         itemTypes = new ArrayList<Item_type>();
+        days_counter_from_report = 7;
 
     }
 
@@ -82,7 +84,8 @@ public class Supply {
 
 
     public void alert_low_quantity_item_type(Item_type item_type){
-        // connect jason to relevant information and send it to user interface
+        String item_id_str = Integer.toString(item_type.getType_id());
+        System.out.print("item id:" + item_id_str + "has low quantity and needs to be restocked");
     }
 
     public void set_faulty_item(int serialNum, String faulty_description){
@@ -96,30 +99,47 @@ public class Supply {
     }
 
     public void send_faulty_report(){
-        // sending to jason the report object, add cur_date to jason
+        this.faultyReport.show();
         this.faultyReport = new FaultyReport(cur_date);
     }
 
 
     public void pass_days(int amount_of_days){
-        if(amount_of_days <1)
-            return;
-        int miliseconds = 1000*60*60*24*amount_of_days;
-        //??
-    }
-    public void  supply_report_initiator(){
+        if(amount_of_days >0)
+            cur_date.setTime( (long)amount_of_days *24*60*60*1000);
+        if(days_counter_from_report - amount_of_days < 0){
+            days_counter_from_report = 7;
+            supplyReport("");
+        }
+        else{
+            days_counter_from_report -= amount_of_days;
+        }
 
-    }
-    public void supplyReport(String category){
         for (int i = 0; i < itemTypes.size(); i++) {
             Item_type item_type = itemTypes.get(i);
-            String cur_item_category = item_type.getCategory();
-            boolean found = category.contains(cur_item_category);
-            if(found){
-                //TODO add to report
+            if(item_type.getAmount_of_days_left_sale() >amount_of_days-1){
+                item_type.setAmount_of_days_left_sale(item_type.getAmount_of_days_left_sale()-amount_of_days);
+            }
         }
 
+    }
+
+    public void supplyReport(String category){
+        SupplyReport supplyReport = new SupplyReport(cur_date);
+        if(category.compareTo("") == 0){
+            for (Item_type item_type : itemTypes) {
+                supplyReport.add_item_type(item_type);
+            }
         }
+        else {
+            for (Item_type item_type : itemTypes) {
+                String cur_item_category = item_type.getCategory();
+                boolean found = category.contains(cur_item_category);
+                if (found)
+                    supplyReport.add_item_type(item_type);
+            }
+        }
+        supplyReport.show(); // ???
     }
 
     public Item_type getType(int type_id){
@@ -130,12 +150,10 @@ public class Supply {
         return null;
     }
 
+    public void set_sale(int days,int type_id,int precentage){
+        Item_type item_type = getType(type_id);
+        item_type.setPrecentage_sale(precentage);
+        item_type.setAmount_of_days_left_sale(days);
+    }
 
-    //public void add_to_def_report(Item item){
-    //    Item_type item_type = item.getType();
-    //    if(item_type.get_total_amount() <= item_type.getMinimal_amount()){
-    // add to def report
-    // tase atraa al hamozar
-    //    }
-    //  }
 }

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Category {
     private String category_name;
-    private List<Product_type> productTypes;
+    private List<Item_type> itemTypes;
 
-    public Category(List<Product_type> productTypes) {
-        this.productTypes = productTypes;
+    public Category(List<Item_type> itemTypes) {
+        this.itemTypes = itemTypes;
     }
 }

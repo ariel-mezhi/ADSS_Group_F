@@ -5,14 +5,13 @@ manager 1111
 worker 2222
 cashier 3333
 items:
-10,tara,dairy,milk,100,5,
-
-
-int type_id, String producer, String category, String sub_category
-            , String size, float cost_price, Date exprdate, Date creation_date
-
-
-
-
-
+10,tara,dairy,milk,100,5,5 5 2024, 28 4 2024
+11,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+12,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+13,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+14,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+15,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+16,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+17,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
+18,tara,dairy,milk,200,8,5 5 2024, 28 4 2024
 end items

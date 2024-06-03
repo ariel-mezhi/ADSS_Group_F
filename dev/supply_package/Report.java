@@ -18,6 +18,8 @@ public abstract class Report {
         report_info += date;
     }
 
-
+    public void show(){
+        System.out.print(report_info);
+    }
 
 }

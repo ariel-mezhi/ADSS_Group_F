@@ -12,9 +12,24 @@ public class main {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
 
-            // Read lines in a loop
+            int case_integer =0;
             while ((line = br.readLine()) != null) {
-                // what we suppose to process
+                if(line.equals("date"))
+                    case_integer = 1;
+                else if (line.equals("passwords")) {
+                    case_integer = 2;
+                }
+                else if(line.equals("items")){
+                    case_integer = 3;
+                }
+                else if(line.equals("end items")){
+                    case_integer = 4;
+                }
+
+                switch (case_integer){
+                    case 1:
+
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
