@@ -8,7 +8,7 @@ public class Shelf {
     private int amount_on_shelf;
     private int max_items;
     public Shelf(String shelf_sub_category) {
-        this.max_items = 20;
+        this.max_items = 3;
         amount_on_shelf = 0;
         this.shelf_sub_category = shelf_sub_category;
         items_on_shelf = new ArrayList<Item>();
@@ -21,6 +21,7 @@ public class Shelf {
     public boolean add_to_shelf(Item cur_item,String location_path){
         if(amount_on_shelf == max_items)
             return false;
+        location_path += this.shelf_sub_category + "\n";
         items_on_shelf.add(cur_item);
         amount_on_shelf++;
         cur_item.setLocation(location_path);

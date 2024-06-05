@@ -23,7 +23,7 @@ public class Supply {
 
     }
 
-    public Item getItem(int serialNum){ //TODO: return exception
+    public Item getItem(int serialNum){ //TODO: return exception // do we need this? i don't think so
         Item item1 = shop.getItem(serialNum);
         Item item2 = storage.getItem(serialNum);
         if (item1 == null && item2 == null){
@@ -49,8 +49,10 @@ public class Supply {
             storage.removeItem(item);
             this_item_type.setAmount_in_storage(this_item_type.getAmount_in_storage()-1);
         }
-        if(this_item_type.get_total_amount() <= this_item_type.getMinimal_amount())
+        if(this_item_type.get_total_amount() <= this_item_type.getMinimal_amount()) {
             alert_low_quantity_item_type(this_item_type);
+            System.out.print("\n");
+        }
         // maybe send to def report if def report is required
         return true;
     }
@@ -59,12 +61,13 @@ public class Supply {
             , String size, float cost_price, Date exprdate, Date creation_date){//TODO add to requirement section that shop is getting filled first and then storage
         Item_type type=null;
         for (int i = 0; i < itemTypes.size(); i++) {
-            if(type_id == itemTypes.get(i).getType_id()){
+            if(itemTypes.get(i).getType_id() == type_id){
                 type = itemTypes.get(i);
             }
         }
         if(type == null){
             type = new Item_type(type_id, producer, category, sub_category, size, cost_price);
+            this.itemTypes.add(type);
         }
         Item new_item = new Item(type,exprdate, creation_date);
         boolean added_to_shop = shop.add_to_shop(new_item);
@@ -85,7 +88,7 @@ public class Supply {
 
     public void alert_low_quantity_item_type(Item_type item_type){
         String item_id_str = Integer.toString(item_type.getType_id());
-        System.out.print("item id:" + item_id_str + "has low quantity and needs to be restocked");
+        System.out.print("item id: " + item_id_str + "has low quantity and needs to be restocked\n");
     }
 
     public void set_faulty_item(int serialNum, String faulty_description){
@@ -96,6 +99,9 @@ public class Supply {
 
     public void add_to_faulty_report(Item item,String faulty_description){
         faultyReport.add_to_report(item,faulty_description);
+        int item_SN = item.getSerialNum();
+        removeItem(item_SN);
+        // yuval added the last two lines in order to remove an item that was added
     }
 
     public void send_faulty_report(){
@@ -107,7 +113,7 @@ public class Supply {
     public void pass_days(int amount_of_days){
         if(amount_of_days >0)
             cur_date.setTime( (long)amount_of_days *24*60*60*1000);
-        if(days_counter_from_report - amount_of_days < 0){
+        if(days_counter_from_report - amount_of_days <= 0){
             days_counter_from_report = 7;
             supplyReport("");
         }
@@ -117,8 +123,12 @@ public class Supply {
 
         for (int i = 0; i < itemTypes.size(); i++) {
             Item_type item_type = itemTypes.get(i);
-            if(item_type.getAmount_of_days_left_sale() >amount_of_days-1){
+            if(item_type.getAmount_of_days_left_sale() > amount_of_days){
                 item_type.setAmount_of_days_left_sale(item_type.getAmount_of_days_left_sale()-amount_of_days);
+            }
+            else {
+                item_type.setAmount_of_days_left_sale(0);
+                item_type.setPrecentage_sale(0);
             }
         }
 
@@ -139,7 +149,7 @@ public class Supply {
                     supplyReport.add_item_type(item_type);
             }
         }
-        supplyReport.show(); // ???
+        supplyReport.show();
     }
 
     public Item_type getType(int type_id){

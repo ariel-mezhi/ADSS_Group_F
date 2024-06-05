@@ -7,12 +7,12 @@ public class Area {
     private static int area_id_generator;
     private List<Shelf> shelves_in_Area;
     private final int area_id;
-    private final int max_shelves;
+    private int max_shelves;
     private int amount_of_shelves;
-    private String Area_description;
+    private final String Area_description;
 
     public Area(String area_description) {
-        this.max_shelves = 10;
+        this.max_shelves = 1;
         amount_of_shelves = 0;
         this.shelves_in_Area = new ArrayList<Shelf>();
         this.area_id = area_id_generator;
@@ -20,17 +20,26 @@ public class Area {
         area_id_generator++;
     }
 
+    public int getMax_shelves() {
+        return max_shelves;
+    }
+
+    public void setMax_shelves(int max_shelves) {
+        this.max_shelves = max_shelves;
+    }
+
     public int getArea_id() {
         return area_id;
     }
 
-    public boolean add_shelf(){
+    public boolean add_shelf(Item item){        // yuval added to argument the item and created the string sub_category to but in shelf
         if(amount_of_shelves == max_shelves)
             return false;
-        shelves_in_Area.add(new Shelf());
+        String sub_category = item.getType().getSub_category();
+        shelves_in_Area.add(new Shelf(sub_category));
         amount_of_shelves++;
         return true;
-        // add check on amount of shelves
+        // add check on amount of shelves --> not sure what this means do you mean there is a max amount of shelves? is this a request or a saying.
     }
 
     public boolean remove_shelf(int i){
@@ -59,12 +68,13 @@ public class Area {
     }
 
     public boolean add_to_area(Item item, String location_path){
+        location_path += this.Area_description;
+        location_path += " ";
         boolean added_to_shelf = false;
         boolean found_related_shelf = false;
         for (int i = 0; i < amount_of_shelves; i++) {
-            if(item.getType().getSub_category() == shelves_in_Area.get(i).getShelf_sub_category()){ // if shelf sub category has a designated shelf
+            if(item.getType().getSub_category().equals(shelves_in_Area.get(i).getShelf_sub_category())){ // if shelf sub category has a designated shelf
                 found_related_shelf = true;
-                location_path += shelves_in_Area.get(i).getShelf_sub_category();
                 added_to_shelf = shelves_in_Area.get(i).add_to_shelf(item,location_path);
                 break;
             }

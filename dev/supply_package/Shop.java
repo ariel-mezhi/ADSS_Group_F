@@ -5,13 +5,21 @@ import java.util.List;
 
 public class Shop {
     private List<Area> shop_area;
-    private final int max_areas;
+    private int max_areas;
     private int amount_of_areas;
 
     public Shop() {
         this.max_areas = 5;
         shop_area = new ArrayList<Area>();
 
+    }
+
+    public int getMax_areas() {
+        return max_areas;
+    }
+
+    public void setMax_areas(int max_areas) {
+        this.max_areas = max_areas;
     }
 
     public boolean add_area(String description){
@@ -30,11 +38,6 @@ public class Shop {
         return true;
     }
 
-//    public list[] search(int searchNum, list[]){
-    // for i in list of areas
-    //
-
-
     public Item getItem(int serialNum){
         for (int i = 0; i < amount_of_areas; i++) {
             Item cur_item = shop_area.get(i).get_items_in_area(serialNum);
@@ -49,9 +52,8 @@ public class Shop {
         boolean added_to_area = false;
         boolean found_related_area = false;
         for (int i = 0; i < amount_of_areas; i++) {
-            if(new_item.getType().getCategory() == shop_area.get(i).getArea_description()){ // if item category has a designated area
+            if(new_item.getType().getCategory().equals(shop_area.get(i).getArea_description())){ // if item category has a designated area
                 found_related_area = true;
-                location_path = shop_area.get(i).getArea_description();
                 added_to_area = shop_area.get(i).add_to_area(new_item,location_path);
                 break;
             }

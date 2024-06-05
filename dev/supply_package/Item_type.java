@@ -1,8 +1,5 @@
 package supply_package;
 
-import java.util.Date;
-import java.util.List;
-
 public class Item_type {
     private final int type_id;
     private final String producer;
@@ -51,7 +48,7 @@ public class Item_type {
 
 
     public String getProducer() {
-        return producer;
+        return producer + "\n";
     }
 
     public String getCategory() {

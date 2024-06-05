@@ -3,14 +3,14 @@ import java.util.Date;
 
 public class Item {
     private final int serialNum; // like "makat"
-    private Item_type type; // maybe change implementaion
+    private final Item_type type;
     private String location;
     private Shelf shelf_of_item;
     private static int serialNumgenerator;
 
     private final Date exp_date;
     private final Date creation_date;
-    // private boolean faulty;
+
 
     public Item(Item_type type, Date exp, Date creation) {
         this.shelf_of_item = null;
