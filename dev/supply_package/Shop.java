@@ -58,14 +58,14 @@ public class Shop {
                 break;
             }
         }
-        // checked all areas and didnt find any matched area or failed to add to area
+        // checked all areas and didn't find any matched area or failed to add to area
         if(found_related_area && !added_to_area){
             return false;
         }
         else if (found_related_area && added_to_area){
             return true;
         }
-        else{ // didnt find any matched areas
+        else{ // didn't find any matched areas
             if(amount_of_areas < max_areas){ // check if an area can be created
                 Area new_area = new Area(new_item.getType().getCategory());
                 amount_of_areas++;

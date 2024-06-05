@@ -23,8 +23,10 @@ public class Jsoncontroller {
 
     public void report_faulty_item(JsonObject json){
         int serialNum = get_serial_num(json);
-        if(serialNum == -1)
+        if(serialNum == -1) {
+            System.out.print("item not exist\n");
             return;
+        }
         String faulty_des = json.get("faulty_description").getAsString();
         this.supply.set_faulty_item(serialNum,faulty_des);
     }
@@ -106,8 +108,8 @@ public class Jsoncontroller {
 
     public void set_sale(JsonObject json){
         int days = json.get("days").getAsInt();
-        int precentage = json.get("precentage").getAsInt();
+        int percentage = json.get("percentage").getAsInt();
         int item_id = json.get("type_id").getAsInt();
-        supply.set_sale(days,item_id,precentage);
+        supply.set_sale(days,item_id,percentage);
     }
 }

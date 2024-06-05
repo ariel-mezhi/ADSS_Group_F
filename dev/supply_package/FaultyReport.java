@@ -5,6 +5,7 @@ import java.util.Date;
 public class FaultyReport extends Report {
     FaultyReport(Date creation_date) {
         super(creation_date);
+        this.report_info += "Faulty report:\n";
     }
 
     public void add_to_report(Item item,String faulty_reason ) {

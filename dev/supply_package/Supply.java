@@ -1,7 +1,6 @@
 package supply_package;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +12,8 @@ public class Supply {
     private Date cur_date;
     private int days_counter_from_report;
 
-    public Supply(){
-        this.cur_date = new Date(2000, Calendar.JANUARY,25);
+    public Supply(Date cur_date){
+        this.cur_date = cur_date;
         this.faultyReport = new FaultyReport(cur_date);
         this.storage = new Storage();
         this.shop = new Shop();
@@ -23,25 +22,23 @@ public class Supply {
 
     }
 
-    public Item getItem(int serialNum){ //TODO: return exception // do we need this? i don't think so
+    public Item getItem(int serialNum){
         Item item1 = shop.getItem(serialNum);
         Item item2 = storage.getItem(serialNum);
-        if (item1 == null && item2 == null){
+        if (item1 == null && item2 == null)
             return null;
-        }
-        else if (item1 == null){
+        else if (item1 == null)
             return item2;
-        }
         else return item1;
     }
 
-    public boolean removeItem(int serialNum){ //TODO: add to faulty report;
+    public void removeItem(int serialNum){
         Item item = getItem(serialNum);
         if(item == null){
-            return false;
+            return;
         }
         Item_type this_item_type = item.getType();
-        if(item.getLocation() != "storage"){ // item in shop
+        if(!item.getLocation().equals("storage")){ // item in shop
             item.getShelf_of_item().remove_from_shelf(item);
             this_item_type.setAmount_on_shelves(this_item_type.getAmount_on_shelves()-1);
         }
@@ -53,8 +50,6 @@ public class Supply {
             alert_low_quantity_item_type(this_item_type);
             System.out.print("\n");
         }
-        // maybe send to def report if def report is required
-        return true;
     }
 
     public void addnewItem(int type_id, String producer, String category, String sub_category
@@ -71,7 +66,7 @@ public class Supply {
         }
         Item new_item = new Item(type,exprdate, creation_date);
         boolean added_to_shop = shop.add_to_shop(new_item);
-        if(added_to_shop){ // TODO equal on strings
+        if(added_to_shop){
             type.setAmount_on_shelves(type.getAmount_on_shelves()+1);
         }
         else{
@@ -101,7 +96,6 @@ public class Supply {
         faultyReport.add_to_report(item,faulty_description);
         int item_SN = item.getSerialNum();
         removeItem(item_SN);
-        // yuval added the last two lines in order to remove an item that was added
     }
 
     public void send_faulty_report(){
@@ -160,9 +154,9 @@ public class Supply {
         return null;
     }
 
-    public void set_sale(int days,int type_id,int precentage){
+    public void set_sale(int days,int type_id,int percentage){
         Item_type item_type = getType(type_id);
-        item_type.setPrecentage_sale(precentage);
+        item_type.setPrecentage_sale(percentage);
         item_type.setAmount_of_days_left_sale(days);
     }
 

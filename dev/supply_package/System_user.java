@@ -14,7 +14,7 @@ public class System_user {
 
     public void print_menu_worker(){
         System.out.print("Hello, please choose one option from the following:\n");
-        System.out.print("1.Report faulty item \n"); // send to prints that ask for serial number and faulty description
+        System.out.print("1.Report faulty item \n");
         System.out.print("2.Get selling item price (provide item type id) \n");
         System.out.print("3.Get item location (provide serial number) \n");
         System.out.print("4.Exit \n");
@@ -29,7 +29,6 @@ public class System_user {
                 System.out.print("enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 scanner.nextLine();
-                // add exception if entered string and then printed the same menu again
                 if (user_input1 < 0) {
                     System.out.print("invalid serial number\n");
                     get_answer_worker();
@@ -210,7 +209,7 @@ public class System_user {
                 int type_id = scanner.nextInt();
                 JsonObject json11 = new JsonObject();
                 json11.addProperty("days", amount_of_days);
-                json11.addProperty("precentage", user_input);
+                json11.addProperty("percentage", user_input);
                 json11.addProperty("type_id", type_id);
                 jcontroller.set_sale(json11);
                 print_menu_manager();
@@ -250,7 +249,6 @@ public class System_user {
                 System.out.print("enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 scanner.nextLine();
-                // add exception if entered string and then printed the same menu again
                 if (user_input1 < 0) {
                     System.out.print("invalid serial number\n");
                     get_answer_worker();

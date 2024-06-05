@@ -79,15 +79,15 @@ public class Area {
                 break;
             }
         }
-        // checked all areas and didnt find any matched area or failed to add to area
+        // checked all areas and didn't find any matched area or failed to add to area
         if(found_related_shelf && !added_to_shelf){
             return false;
         }
         else if (found_related_shelf && added_to_shelf){
             return true;
         }
-        else{ // didnt find any matched shelves
-            if(amount_of_shelves < max_shelves){ // check if an shelf can be created
+        else{ // didn't find any matched shelves
+            if(amount_of_shelves < max_shelves){ // check if a shelf can be created
                 Shelf new_shelf = new Shelf(item.getType().getSub_category());
                 amount_of_shelves++;
                 shelves_in_Area.add(new_shelf);

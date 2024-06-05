@@ -29,12 +29,11 @@ public class Shelf {
         return true;
 
     }
-    public boolean remove_from_shelf(Item cur_item){
+    public void remove_from_shelf(Item cur_item){
         if(amount_on_shelf == 0)
-            return false;
+            return;
         items_on_shelf.remove(cur_item);
         amount_on_shelf--;
-        return true;
     }
     public Item getItem(int serialNum){
         for (int i = 0; i < amount_on_shelf; i++) {

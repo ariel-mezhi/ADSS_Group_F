@@ -11,7 +11,7 @@ public class Item_type {
     private int amount_in_storage;
 
     private float selling_price;
-    private final float cost_price;
+    private float cost_price;
 
     private int minimal_amount;
     private int precentage_sale;
@@ -29,7 +29,7 @@ public class Item_type {
         this.amount_in_storage = 0;
         this.minimal_amount = 0;
         this.cost_price = cost_price;
-        this.selling_price = cost_price; // there isnt any provided selling price thus it will be default as cost price
+        this.selling_price = cost_price; // there isn't any provided selling price thus it will be set as default cost price
         precentage_sale = 0;
         amount_of_days_left_sale = 0;
     }
@@ -89,6 +89,10 @@ public class Item_type {
 
     public float getCost_price() {
         return cost_price;
+    }
+
+    public void setCost_price(float cost_price) {
+        this.cost_price = cost_price;
     }
 
     public int get_total_amount(){

@@ -2,7 +2,7 @@ package supply_package;
 import java.util.Date;
 
 public class Item {
-    private final int serialNum; // like "makat"
+    private final int serialNum;
     private final Item_type type;
     private String location;
     private Shelf shelf_of_item;
