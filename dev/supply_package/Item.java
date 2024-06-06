@@ -7,7 +7,6 @@ public class Item {
     private String location;
     private Shelf shelf_of_item;
     private static int serialNumgenerator;
-
     private final Date exp_date;
     private final Date creation_date;
 

@@ -1,5 +1,4 @@
 package supply_package;
-
 import java.util.Date;
 
 public class FaultyReport extends Report {
@@ -13,8 +12,8 @@ public class FaultyReport extends Report {
         String category = item.getType().getCategory() + " ,";
         String sub_category = item.getType().getSub_category() + " ,";
         String size = item.getType().getSize();
-        String serial_num = String.valueOf(item.getSerialNum()) + " faulty reason:" + faulty_reason + "\n";
-        this.report_info += str1 + ". item: " + category + sub_category + size + ", Serial num : " + serial_num;
+        String serial_num = String.valueOf(item.getSerialNum()) + " faulty reason: " + faulty_reason + "\n";
+        this.report_info += str1 + ". item: " + category + sub_category + size + ", Serial number: " + serial_num;
         line_counter++;
     }
 }

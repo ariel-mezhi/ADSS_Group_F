@@ -1,21 +1,16 @@
 package supply_package;
-
 public class Item_type {
     private final int type_id;
     private final String producer;
     private final String category;
     private final String sub_category;
     private final String size;
-
     private int amount_on_shelves;
     private int amount_in_storage;
-
     private float selling_price;
     private float cost_price;
-
     private int minimal_amount;
-    private int precentage_sale;
-
+    private int percentage_sale;
     private int amount_of_days_left_sale;
 
     public Item_type(int type_id, String producer, String category, String sub_category
@@ -30,7 +25,7 @@ public class Item_type {
         this.minimal_amount = 0;
         this.cost_price = cost_price;
         this.selling_price = cost_price; // there isn't any provided selling price thus it will be set as default cost price
-        precentage_sale = 0;
+        percentage_sale = 0;
         amount_of_days_left_sale = 0;
     }
 
@@ -80,11 +75,11 @@ public class Item_type {
     }
 
     public float getSelling_price() {
-        return selling_price - (selling_price* precentage_sale)/100;
+        return selling_price - (selling_price* percentage_sale)/100;
     }
 
-    public void setSelling_price(float selling_pricce) {
-        this.selling_price = selling_pricce;
+    public void setSelling_price(float selling_price) {
+        this.selling_price = selling_price;
     }
 
     public float getCost_price() {
@@ -99,12 +94,12 @@ public class Item_type {
         return amount_in_storage + amount_on_shelves;
     }
 
-    public int getPrecentage_sale() {
-        return precentage_sale;
+    public int getPercentage_sale() {
+        return percentage_sale;
     }
 
-    public void setPrecentage_sale(int precentage_sale) {
-        this.precentage_sale = precentage_sale;
+    public void setPercentage_sale(int percentage_sale) {
+        this.percentage_sale = percentage_sale;
     }
 
     public int getAmount_of_days_left_sale() {

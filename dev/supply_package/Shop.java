@@ -1,39 +1,26 @@
 package supply_package;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Shop {
     private List<Area> shop_area;
-    private int max_areas;
     private int amount_of_areas;
 
     public Shop() {
-        this.max_areas = 5;
         shop_area = new ArrayList<Area>();
-
-    }
-
-    public int getMax_areas() {
-        return max_areas;
-    }
-
-    public void setMax_areas(int max_areas) {
-        this.max_areas = max_areas;
+        amount_of_areas = 0;
     }
 
     public boolean add_area(String description){
-        if(amount_of_areas==max_areas)
-            return false;
         shop_area.add(new Area(description));
         amount_of_areas++;
         return true;
     }
 
-    public boolean remove_area(int i){
+    public boolean remove_area(Area area){
         if(amount_of_areas==0)
             return false;
-        shop_area.remove(i);
+        shop_area.remove(area);
         amount_of_areas--;
         return true;
     }
@@ -49,33 +36,20 @@ public class Shop {
 
     public boolean add_to_shop(Item new_item){
         String location_path = "";
-        boolean added_to_area = false;
-        boolean found_related_area = false;
+        boolean was_added = false;
         for (int i = 0; i < amount_of_areas; i++) {
-            if(new_item.getType().getCategory().equals(shop_area.get(i).getArea_description())){ // if item category has a designated area
-                found_related_area = true;
-                added_to_area = shop_area.get(i).add_to_area(new_item,location_path);
-                break;
+            if(new_item.getType().getCategory().equals(shop_area.get(i).getArea_description())){
+                was_added = shop_area.get(i).add_to_area(new_item,location_path);
             }
         }
-        // checked all areas and didn't find any matched area or failed to add to area
-        if(found_related_area && !added_to_area){
-            return false;
-        }
-        else if (found_related_area && added_to_area){
-            return true;
-        }
-        else{ // didn't find any matched areas
-            if(amount_of_areas < max_areas){ // check if an area can be created
-                Area new_area = new Area(new_item.getType().getCategory());
-                amount_of_areas++;
-                shop_area.add(new_area);
-                return new_area.add_to_area(new_item,location_path);
-            }
-            else{ // cant add anymore areas
-                return false;
+        return was_added;
+    }
 
+    public Area find_area(String area_description){
+        for (Area area : shop_area) {
+            if (area.getArea_description().equals(area_description))
+                return area;
         }
-        }
+        return null;
     }
 }

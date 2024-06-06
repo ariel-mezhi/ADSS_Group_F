@@ -10,43 +10,19 @@ public class Main {
         Date date1 = new Date(2024, Calendar.JUNE,16);
         Supply supply = new Supply(date);
         System_user system_user = new System_user(supply);
-        supply.addnewItem(10,"tara","diary","milk","100ml",5,date,date1);
-        supply.addnewItem(11,"tnova","diary","milk","150ml",5,date,date1);
-        supply.addnewItem(13,"strauss","diary","milk","200ml",5,date,date1);
-        supply.addnewItem(13,"strauss","diary","milk","200ml",5,date,date1);
-        supply.addnewItem(13,"strauss","diary","milk","200ml",5,date,date1);
-        supply.addnewItem(50,"neto","meat","beef","300g",5,date,date1);
-        // String filePath = "\"C:\\Users\\Yuval Ellins\\Desktop\\projects\\ADSS_Group_F\\dev\\supply_package\\configuration_file_supply\"";
-//        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-//            String line;
-//
-//            int case_integer =0;
-//            while ((line = br.readLine()) != null) {
-//                if(line.equals("date"))
-//                    case_integer = 1;
-//                else if (line.equals("passwords")) {
-//                    case_integer = 2;
-//                }
-//                else if(line.equals("items")){
-//                    case_integer = 3;
-//                }
-//                else if(line.equals("end items")){
-//                    case_integer = 4;
-//                }
-//
-//                switch (case_integer){
-//                    case 1:
-//
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        supply.add_newItem(10,"tara","diary","milk","100ml",5,date,date1);
+        supply.add_newItem(10,"tara","diary","milk","100ml",5,date,date1);
+        supply.add_newItem(10,"tara","diary","milk","100ml",5,date,date1);
+        supply.add_newItem(11,"tnova","diary","milk","150ml",5,date,date1);
+        supply.add_newItem(13,"strauss","diary","milk","200ml",5,date,date1);
+        supply.add_newItem(13,"strauss","diary","milk","200ml",5,date,date1);
+        supply.add_newItem(13,"strauss","diary","milk","200ml",5,date,date1);
+        supply.add_newItem(50,"neto","meat","beef","300g",5,date,date1);
         while(system_on) {
             System.out.print("Hello, welcome to supply system, please identify by entering number of the option:\n");
             System.out.print("1.Manager\n");
             System.out.print("2.Worker\n");
-            System.out.print("3.Cashier\n");
+            System.out.print("3.Storekeeper\n");
             System.out.print("4.Exit system\n");
             Scanner scanner = new Scanner(System.in);
             int user_input = scanner.nextInt();
@@ -58,7 +34,7 @@ public class Main {
                     system_user.print_menu_worker();
                 }
                 case 3 -> {
-                    system_user.print_menu_cashier();
+                    system_user.print_menu_storekeeper();
                 }
                 case 4 ->{
                     system_on = false;

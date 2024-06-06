@@ -1,5 +1,4 @@
 package supply_package;
-
 import java.util.ArrayList;
 import java.util.List;
 public class Shelf {
@@ -8,7 +7,7 @@ public class Shelf {
     private int amount_on_shelf;
     private int max_items;
     public Shelf(String shelf_sub_category) {
-        this.max_items = 3;
+        this.max_items = 20; // default value for all shelves, was added as answer from clients
         amount_on_shelf = 0;
         this.shelf_sub_category = shelf_sub_category;
         items_on_shelf = new ArrayList<Item>();
@@ -27,7 +26,6 @@ public class Shelf {
         cur_item.setLocation(location_path);
         cur_item.setShelf_of_item(this);
         return true;
-
     }
     public void remove_from_shelf(Item cur_item){
         if(amount_on_shelf == 0)
