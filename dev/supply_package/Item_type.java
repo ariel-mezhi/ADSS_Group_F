@@ -12,9 +12,10 @@ public class Item_type {
     private int minimal_amount;
     private int percentage_sale;
     private int amount_of_days_left_sale;
+    private int supplier_sale;
 
     public Item_type(int type_id, String producer, String category, String sub_category
-            , String size,float cost_price) {
+            , String size,float cost_price,int supplier_sale) {
         this.type_id = type_id;
         this.producer = producer;
         this.category = category;
@@ -27,6 +28,7 @@ public class Item_type {
         this.selling_price = cost_price; // there isn't any provided selling price thus it will be set as default cost price
         percentage_sale = 0;
         amount_of_days_left_sale = 0;
+        this.supplier_sale = supplier_sale;
     }
 
     public int getMinimal_amount() {
@@ -83,7 +85,7 @@ public class Item_type {
     }
 
     public float getCost_price() {
-        return cost_price;
+        return cost_price - (cost_price*supplier_sale)/100;
     }
 
     public void setCost_price(float cost_price) {
@@ -108,6 +110,14 @@ public class Item_type {
 
     public void setAmount_of_days_left_sale(int amount_of_days_left_sale) {
         this.amount_of_days_left_sale = amount_of_days_left_sale;
+    }
+
+    public int get_supplier_sale(){
+        return supplier_sale;
+    }
+
+    public void set_supplier_sale(int new_supplier_sale){
+        this.supplier_sale = new_supplier_sale;
     }
 }
 

@@ -81,7 +81,11 @@ public class System_user {
         System.out.print("13.Enter sale for category or categories\n");
         System.out.print("14.Add new area to shop\n");
         System.out.print("15.Add shelf to specific area\n");
-        System.out.print("16.Exit \n");
+        System.out.print("16.Get sale from supplier on item type\n");
+        System.out.print("17.Set new supplier sale of item type\n");
+        System.out.print("18.Set new selling price of item type\n");
+        System.out.print("19.set new cost price of item type\n");
+        System.out.print("20.Exit \n");
         get_answer_manager();
     }
 
@@ -199,7 +203,7 @@ public class System_user {
             case 11 -> {
                 System.out.print("Enter amount of days to the sale\n ");
                 int amount_of_days = scanner.nextInt();
-                System.out.print("Enter precentage of sale\n");
+                System.out.print("Enter percentage of sale\n");
                 user_input = scanner.nextInt();
                 System.out.print("Enter type id\n");
                 int type_id = scanner.nextInt();
@@ -258,6 +262,47 @@ public class System_user {
                 print_menu_manager();
             }
             case 16 ->{
+                System.out.print("enter item type \n");
+                int type_id = scanner.nextInt();
+                JsonObject json16 = new JsonObject();
+                json16.addProperty("type_id", type_id);
+                jcontroller.get_supplier_sale(json16);
+                print_menu_manager();
+            }
+            case 17 ->{
+                System.out.print("enter item type \n");
+                int type_id = scanner.nextInt();
+                System.out.print("enter new supplier sale amount \n");
+                int new_supplier_sale = scanner.nextInt();
+                JsonObject json17 = new JsonObject();
+                json17.addProperty("type_id", type_id);
+                json17.addProperty("new_supplier_sale", new_supplier_sale);
+                jcontroller.set_supplier_sale(json17);
+                print_menu_manager();
+            }
+            case 18 ->{
+                System.out.print("enter item type \n");
+                int type_id = scanner.nextInt();
+                System.out.print("enter new selling price \n");
+                float new_selling_price = scanner.nextFloat();
+                JsonObject json18 = new JsonObject();
+                json18.addProperty("type_id", type_id);
+                json18.addProperty("new_selling_price", new_selling_price);
+                jcontroller.set_new_selling_price(json18);
+                print_menu_manager();
+            }
+            case 19 ->{
+                System.out.print("enter item type \n");
+                int type_id = scanner.nextInt();
+                System.out.print("enter new cost price \n");
+                float new_cost_price = scanner.nextFloat();
+                JsonObject json19 = new JsonObject();
+                json19.addProperty("type_id", type_id);
+                json19.addProperty("new_cost_price", new_cost_price);
+                jcontroller.set_new_cost_price(json19);
+                print_menu_manager();
+            }
+            case 20 ->{
                 return;
             }
             default -> {
@@ -302,7 +347,11 @@ public class System_user {
                 System.out.print("enter item's creation date e.g: 12.12.2024\n");
                 String creation_date = scanner.next();
                 scanner.nextLine();
+                System.out.print("enter item type supplier sale\n");
+                int supplier_sale = scanner.nextInt();
+                scanner.nextLine();
                 JsonObject json = new JsonObject();
+                json.addProperty("supplier_sale", supplier_sale);
                 json.addProperty("type_id", type_id);
                 json.addProperty("cost_price", cost_price);
                 json.addProperty("producer", producer);

@@ -1,5 +1,6 @@
 package supply_package;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,14 +11,16 @@ public class Supply {
     private FaultyReport faultyReport;
     private Date cur_date;
     private int days_counter_from_report;
+    private Calendar calendar;
 
-    public Supply(Date cur_date){
+    public Supply(Date cur_date,Calendar calendar){
         this.cur_date = cur_date;
         this.faultyReport = new FaultyReport(cur_date);
         this.storage = new Storage();
         this.shop = new Shop();
         itemTypes = new ArrayList<Item_type>();
         days_counter_from_report = 7;
+        this.calendar = calendar;
     }
 
     public Item getItem(int serialNum){
@@ -81,10 +84,12 @@ public class Supply {
         this.faultyReport = new FaultyReport(cur_date);
     }
 
-    public void pass_days(int amount_of_days){
+    public void pass_days(int amount_of_days){ // this function will simulate time in this module, by our perception
         if(amount_of_days <= 0)
             return;
-        cur_date.setTime( (long)amount_of_days *24*60*60*1000);
+        System.out.print(cur_date.toString());
+        calendar.add(Calendar.DAY_OF_MONTH,amount_of_days);
+        cur_date = calendar.getTime();
         if(days_counter_from_report - amount_of_days <= 0){
             days_counter_from_report = 7;
             supplyReport("");
@@ -157,7 +162,7 @@ public class Supply {
     }
 
     public void add_newItem(int type_id, String producer, String category, String sub_category
-            , String size, float cost_price, Date exprdate, Date creation_date){//TODO add to requirement section that shop is getting filled first and then storage
+            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale){ // item type won't have different values, so adding new item will have same fields as any other item in its item type
         Item_type type=null;
         for (Item_type itemType : itemTypes) { // getting type of the item if exists
             if (itemType.getType_id() == type_id) {
@@ -165,7 +170,7 @@ public class Supply {
             }
         }
         if(type == null){ // type not exist, therefore creates for the type a new item_type
-            type = new Item_type(type_id, producer, category, sub_category, size, cost_price);
+            type = new Item_type(type_id, producer, category, sub_category, size, cost_price,supplier_sale);
             this.itemTypes.add(type);
         }
         Item new_item = new Item(type,exprdate, creation_date);
@@ -196,4 +201,29 @@ public class Supply {
         this.shop.remove_area(this.shop.find_area(area_category));
     }
 
+    public int get_supplier_sale(Item_type item_type){
+        return item_type.get_supplier_sale();
+    }
+
+    public void set_supplier_sale(Item_type item_type,int new_supplier_sale){
+        if(new_supplier_sale <= 0) {
+            item_type.set_supplier_sale(0);
+            return;
+        }
+        item_type.set_supplier_sale(new_supplier_sale);
+    }
+
+    public void set_selling_price(Item_type item_type,float new_selling_price){
+        if(new_selling_price <= 0){
+            return;
+        }
+        item_type.setSelling_price(new_selling_price);
+    }
+
+    public void set_cost_price(Item_type item_type,float new_cost_price){
+        if(new_cost_price <= 0){
+            return;
+        }
+        item_type.setCost_price(new_cost_price);
+    }
 }

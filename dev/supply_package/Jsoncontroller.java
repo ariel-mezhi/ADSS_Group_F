@@ -114,6 +114,7 @@ public class Jsoncontroller {
     }
 
     public void add_item_shop(JsonObject json){
+        int supplier_sale = json.get("supplier_sale").getAsInt();
         int type_id = json.get("type_id").getAsInt();
         int cost_price = json.get("cost_price").getAsInt();
         String producer = json.get("producer").getAsString();
@@ -126,13 +127,13 @@ public class Jsoncontroller {
         int year = Integer.parseInt(dateparts[2]);
         int month = Integer.parseInt(dateparts[1]);
         int day = Integer.parseInt(dateparts[0]);
-        Date exp_date = new Date(year,month,day);
+        Date exp_date = new Date(year-1900,month-1,day);
         dateparts = creation_date.split("\\.");
         year = Integer.parseInt(dateparts[2]);
         month = Integer.parseInt(dateparts[1]);
         day = Integer.parseInt(dateparts[0]);
-        Date create_date = new Date(year,month,day);
-        supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date);
+        Date create_date = new Date(year-1900,month-1,day);
+        supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date,supplier_sale);
     }
 
     public void set_minimal_amount_type(JsonObject json){
@@ -140,7 +141,7 @@ public class Jsoncontroller {
         int minimal_amount = json.get("minimal_amount").getAsInt();
         supply.set_minimal_amount(type_id,minimal_amount);
     }
-    public void set_sale_categories(JsonObject json){
+    public void set_sale_categories(JsonObject json){ // setting sales on categories that not exist wont track them when they will be exist
         int days = json.get("days").getAsInt();
         int percentage = json.get("percentage").getAsInt();
         String categories = json.get("categories").getAsString();
@@ -156,5 +157,49 @@ public class Jsoncontroller {
         String area_description = json.get("area_description").getAsString();
         String shelf_description = json.get("shelf_description").getAsString();
         supply.add_shelf_to_area(shelf_description,area_description);
+    }
+
+    public void get_supplier_sale(JsonObject json){
+        int type_id = get_item_type(json);
+        Item_type type = supply.getType(type_id);
+        if (type == null) {
+            System.out.print("item not exist\n");
+            return;
+        }
+        int supplier_sale = supply.get_supplier_sale(type);
+        System.out.print("the item type: " + type.getType_id() + " is buying in: " + supplier_sale + " percentage sale.\n");
+    }
+
+    public void set_supplier_sale(JsonObject json){
+        int type_id = get_item_type(json);
+        int new_supplier_sale = json.get("new_supplier_sale").getAsInt();
+        Item_type type = supply.getType(type_id);
+        if (type == null) {
+            System.out.print("item not exist\n");
+            return;
+        }
+        supply.set_supplier_sale(type,new_supplier_sale);
+    }
+
+    public void set_new_selling_price(JsonObject json){
+        int type_id = get_item_type(json);
+        float new_selling_price = json.get("new_selling_price").getAsFloat();
+        Item_type type = supply.getType(type_id);
+        if (type == null) {
+            System.out.print("item not exist\n");
+            return;
+        }
+        supply.set_selling_price(type,new_selling_price);
+    }
+
+    public void set_new_cost_price(JsonObject json){
+        int type_id = get_item_type(json);
+        float new_cost_price = json.get("new_cost_price").getAsFloat();
+        Item_type type = supply.getType(type_id);
+        if (type == null) {
+            System.out.print("item not exist\n");
+            return;
+        }
+        supply.set_cost_price(type,new_cost_price);
     }
 }

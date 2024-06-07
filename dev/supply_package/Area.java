@@ -13,10 +13,9 @@ public class Area {
         this.Area_description = area_description;
     }
 
-    public boolean add_shelf(String shelf_description){
+    public void add_shelf(String shelf_description){
         shelves_in_Area.add(new Shelf(shelf_description));
         amount_of_shelves++;
-        return true;
     }
 
     public boolean remove_shelf(int i){
