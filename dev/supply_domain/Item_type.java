@@ -1,4 +1,4 @@
-package supply_package;
+package supply_domain;
 public class Item_type {
     private final int type_id;
     private final String producer;

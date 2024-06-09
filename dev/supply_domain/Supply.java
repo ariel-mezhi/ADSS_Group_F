@@ -1,4 +1,4 @@
-package supply_package;
+package supply_domain;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

@@ -1,7 +1,9 @@
-package supply_package;
+package supply_presentation;
+import supply_domain.Supply;
+
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args){
@@ -13,7 +15,7 @@ public class Main {
         Calendar calendar = Calendar.getInstance();
         Supply supply = new Supply(calendar.getTime(),calendar);
         System_user system_user = new System_user(supply);
-        // configuration of the system (items on the system) will be configured manually by adding items via storekeeper menu and not by configuration file by our perception.
+        configuration.configure(supply);
         while(system_on) {
             System.out.print("Hello, welcome to supply system, please identify by entering number of the option:\n");
             System.out.print("1.Manager\n");

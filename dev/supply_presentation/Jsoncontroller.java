@@ -1,5 +1,9 @@
-package supply_package;
+package supply_presentation;
 import com.google.gson.JsonObject;
+import supply_domain.Item;
+import supply_domain.Item_type;
+import supply_domain.Supply;
+
 import java.util.Date;
 public class Jsoncontroller {
     private Supply supply;

@@ -1,4 +1,4 @@
-package supply_package;
+package supply_domain;
 import java.util.Date;
 
 public class Item {

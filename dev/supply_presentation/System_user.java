@@ -1,6 +1,8 @@
-package supply_package;
+package supply_presentation;
 import java.util.Scanner;
 import com.google.gson.JsonObject;
+import supply_domain.Supply;
+
 public class System_user {
     private Jsoncontroller jcontroller;
 
