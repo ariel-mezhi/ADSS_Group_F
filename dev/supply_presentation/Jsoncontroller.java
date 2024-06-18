@@ -88,9 +88,15 @@ public class Jsoncontroller {
         return type.getCost_price();
     }
 
+    public void create_supply_report_Category(JsonObject json){
+        String categories = json.get("categories").getAsString();
+        String sub_categories = json.get("sub_categories").getAsString();
+        String sizes = json.get("sizes").getAsString();
+        supply.supplyReportCategory(categories,sub_categories,sizes);
+    }
     public void create_supply_report(JsonObject json){
-        String category = json.get("categories").getAsString();
-        supply.supplyReport(category);
+        String categories = json.get("categories").getAsString();
+        supply.supplyReport(categories);
     }
 
     public void create_faulty_report(){
@@ -121,6 +127,7 @@ public class Jsoncontroller {
         int supplier_sale = json.get("supplier_sale").getAsInt();
         int type_id = json.get("type_id").getAsInt();
         int cost_price = json.get("cost_price").getAsInt();
+        int amount = json.get("amount").getAsInt();
         String producer = json.get("producer").getAsString();
         String category = json.get("category").getAsString();
         String sub_category = json.get("sub_category").getAsString();
@@ -137,7 +144,7 @@ public class Jsoncontroller {
         month = Integer.parseInt(dateparts[1]);
         day = Integer.parseInt(dateparts[0]);
         Date create_date = new Date(year-1900,month-1,day);
-        supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date,supplier_sale);
+        supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date,supplier_sale,amount);
     }
 
     public void set_minimal_amount_type(JsonObject json){

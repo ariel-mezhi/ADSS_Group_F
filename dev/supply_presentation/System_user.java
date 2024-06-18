@@ -24,7 +24,7 @@ public class System_user {
         int user_input = scanner.nextInt();
         switch (user_input) {
             case 1 -> {
-                System.out.print("enter the serial number of the item \n");
+                System.out.print("Enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 JsonObject json1 = new JsonObject();
                 json1.addProperty("serialnumber", user_input1);
@@ -32,14 +32,14 @@ public class System_user {
                 print_menu_worker();
             }
             case 2 -> {
-                System.out.print("enter the serial number of the item \n");
+                System.out.print("Enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 scanner.nextLine();
                 if (user_input1 < 0) {
-                    System.out.print("invalid serial number\n");
+                    System.out.print("Invalid serial number\n");
                     get_answer_worker();
                 } else {
-                    System.out.print("enter the faulty item description \n");
+                    System.out.print("Enter the faulty item description \n");
                     String user_string = scanner.nextLine();
                     JsonObject json = new JsonObject();
                     json.addProperty("serialnumber", user_input1);
@@ -49,7 +49,7 @@ public class System_user {
                 print_menu_worker();
             }
             case 3 -> {
-                System.out.print("enter the serial number of the item \n");
+                System.out.print("Enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 JsonObject json3 = new JsonObject();
                 json3.addProperty("serialnumber", user_input1);
@@ -60,7 +60,7 @@ public class System_user {
                 return;
             }
             default -> {
-                System.out.print("invalid input, please try again\n");
+                System.out.print("Invalid input, please try again\n");
                 print_menu_worker();
             }
         }
@@ -75,7 +75,7 @@ public class System_user {
         System.out.print("5.Get current amount of item type in storage\n");
         System.out.print("6.Get selling item price \n");
         System.out.print("7.Get cost price of item type \n");
-        System.out.print("8.Get current supply report \n");
+        System.out.print("8.Get current supply report on specific category\n");
         System.out.print("9.Get current faulty item report \n");
         System.out.print("10.Pass days in system\n");
         System.out.print("11.Enter sale for items\n");
@@ -86,8 +86,9 @@ public class System_user {
         System.out.print("16.Get sale from supplier on item type\n");
         System.out.print("17.Set new supplier sale of item type\n");
         System.out.print("18.Set new selling price of item type\n");
-        System.out.print("19.set new cost price of item type\n");
-        System.out.print("20.Exit \n");
+        System.out.print("19.Set new cost price of item type\n");
+        System.out.print("20.Get current supply report on category or categories\n");
+        System.out.print("21.Exit \n");
         get_answer_manager();
     }
 
@@ -96,7 +97,7 @@ public class System_user {
         int user_input = scanner.nextInt();
         switch (user_input) {
             case 1 -> {
-                System.out.print("enter the serial number of the item \n");
+                System.out.print("Enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 JsonObject json1 = new JsonObject();
                 json1.addProperty("serialnumber", user_input1);
@@ -104,7 +105,7 @@ public class System_user {
                 print_menu_manager();
             }
             case 2 -> {
-                System.out.print("enter the serial number of the item \n");
+                System.out.print("Enter the serial number of the item \n");
                 int user_input1 = scanner.nextInt();
                 JsonObject json2 = new JsonObject();
                 json2.addProperty("serialnumber", user_input1);
@@ -112,13 +113,13 @@ public class System_user {
                 print_menu_manager();
             }
             case 3 -> {
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
                 JsonObject json3 = new JsonObject();
                 json3.addProperty("type_id", type_id);
                 int cur_amount = jcontroller.get_cur_amount_type(json3);
                 if(cur_amount == -1){
-                    System.out.print("type not exist\n");
+                    System.out.print("Type not exist\n");
                 }
                 else{
                     System.out.print(cur_amount);
@@ -127,13 +128,13 @@ public class System_user {
                 print_menu_manager();
             }
             case 4 -> {
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
                 JsonObject json4 = new JsonObject();
                 json4.addProperty("type_id", type_id);
                 int cur_amount = jcontroller.get_cur_amount_type_shelves(json4);
                 if(cur_amount == -1){
-                    System.out.print("type not exist\n");
+                    System.out.print("Type not exist\n");
                 }
                 else{
                     System.out.print(cur_amount);
@@ -142,13 +143,13 @@ public class System_user {
                 print_menu_manager();
             }
             case 5 -> {
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
                 JsonObject json5 = new JsonObject();
                 json5.addProperty("type_id", type_id);
                 int cur_amount = jcontroller.get_cur_amount_type_storage(json5);
                 if(cur_amount == -1){
-                    System.out.print("type not exist\n");
+                    System.out.print("Type not exist\n");
                 }
                 else{
                     System.out.print(cur_amount);
@@ -157,13 +158,13 @@ public class System_user {
                 print_menu_manager();
             }
             case 6 -> {
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
                 JsonObject json6 = new JsonObject();
                 json6.addProperty("type_id", type_id);
                 float selling_price = jcontroller.get_item_selling_price(json6);
                 if(selling_price == -1){
-                    System.out.print("type not exist\n");
+                    System.out.print("Type not exist\n");
                 }
                 else{
                     System.out.print(selling_price);
@@ -172,13 +173,13 @@ public class System_user {
                 print_menu_manager();
             }
             case 7 -> {
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
                 JsonObject json7 = new JsonObject();
                 json7.addProperty("type_id", type_id);
                 float cost_price = jcontroller.get_item_cost_price(json7);
                 if(cost_price == -1){
-                    System.out.print("type not exist\n");
+                    System.out.print("Type not exist\n");
                 }
                 else{
                     System.out.print(cost_price);
@@ -188,11 +189,17 @@ public class System_user {
             }
             case 8 -> {
                 scanner.nextLine();
-                System.out.print("enter category/categories on report,press enter to include all categories\n");
+                System.out.print("Enter category on report,press enter to include all categories\n");
+                String categories = scanner.nextLine();
+                System.out.print("Enter sub-category on report,press enter to include all sub-categories\n");
+                String sub_categories = scanner.nextLine();
+                System.out.print("Enter size on report,press enter to include all sizes\n");
+                String sizes = scanner.nextLine();
                 JsonObject json8 = new JsonObject();
-                String user_input_string = scanner.nextLine();
-                json8.addProperty("categories", user_input_string);
-                jcontroller.create_supply_report(json8);
+                json8.addProperty("categories", categories);
+                json8.addProperty("sub_categories", sub_categories);
+                json8.addProperty("sizes", sizes);
+                jcontroller.create_supply_report_Category(json8);
                 print_menu_manager();
             }
             case 9 -> {jcontroller.create_faulty_report();print_menu_manager();}
@@ -217,9 +224,9 @@ public class System_user {
                 print_menu_manager();
             }
             case 12 -> {
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
-                System.out.print("enter the minimal amount \n");
+                System.out.print("Enter the minimal amount \n");
                 int minimal_amount = scanner.nextInt();
                 JsonObject json12 = new JsonObject();
                 json12.addProperty("type_id", type_id);
@@ -229,7 +236,7 @@ public class System_user {
             }
             case 13 -> {
                 scanner.nextLine();
-                System.out.print("enter category/categories for sale\n");
+                System.out.print("Enter category/categories for sale\n");
                 String categories = scanner.nextLine();
                 System.out.print("Enter amount of days to the sale\n ");
                 int amount_of_days = scanner.nextInt();
@@ -245,7 +252,7 @@ public class System_user {
             case 14 -> {
                 JsonObject json14 = new JsonObject();
                 scanner.nextLine();
-                System.out.print("enter category of the area\n");
+                System.out.print("Enter category of the area\n");
                 String category = scanner.next();
                 json14.addProperty("category",category);
                 jcontroller.add_new_area(json14);
@@ -254,9 +261,9 @@ public class System_user {
             case 15 -> {
                 JsonObject json15 = new JsonObject();
                 scanner.nextLine();
-                System.out.print("enter category of the area\n");
+                System.out.print("Enter category of the area\n");
                 String area_description = scanner.next();
-                System.out.print("enter sub-category of shelf\n");
+                System.out.print("Enter sub-category of shelf\n");
                 String shelf_description = scanner.next();
                 json15.addProperty("area_description",area_description);
                 json15.addProperty("shelf_description",shelf_description);
@@ -264,7 +271,7 @@ public class System_user {
                 print_menu_manager();
             }
             case 16 ->{
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
                 JsonObject json16 = new JsonObject();
                 json16.addProperty("type_id", type_id);
@@ -272,9 +279,9 @@ public class System_user {
                 print_menu_manager();
             }
             case 17 ->{
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
-                System.out.print("enter new supplier sale amount \n");
+                System.out.print("Enter new supplier sale amount \n");
                 int new_supplier_sale = scanner.nextInt();
                 JsonObject json17 = new JsonObject();
                 json17.addProperty("type_id", type_id);
@@ -283,9 +290,9 @@ public class System_user {
                 print_menu_manager();
             }
             case 18 ->{
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
-                System.out.print("enter new selling price \n");
+                System.out.print("Enter new selling price \n");
                 float new_selling_price = scanner.nextFloat();
                 JsonObject json18 = new JsonObject();
                 json18.addProperty("type_id", type_id);
@@ -294,9 +301,9 @@ public class System_user {
                 print_menu_manager();
             }
             case 19 ->{
-                System.out.print("enter item type \n");
+                System.out.print("Enter item type \n");
                 int type_id = scanner.nextInt();
-                System.out.print("enter new cost price \n");
+                System.out.print("Enter new cost price \n");
                 float new_cost_price = scanner.nextFloat();
                 JsonObject json19 = new JsonObject();
                 json19.addProperty("type_id", type_id);
@@ -305,10 +312,19 @@ public class System_user {
                 print_menu_manager();
             }
             case 20 ->{
+                scanner.nextLine();
+                System.out.print("Enter category or categories on report,press enter to include all categories\n");
+                String categories = scanner.nextLine();
+                JsonObject json20 = new JsonObject();
+                json20.addProperty("categories", categories);
+                jcontroller.create_supply_report(json20);
+                print_menu_manager();
+            }
+            case 21 ->{
                 return;
             }
             default -> {
-                System.out.print("invalid input, please try again\n");
+                System.out.print("Invalid input, please try again\n");
                 print_menu_manager();
             }
         }
@@ -326,30 +342,32 @@ public class System_user {
         int user_input = scanner.nextInt();
         switch (user_input) {
             case 1 -> {
-                System.out.print("enter type id \n");
+                System.out.print("Enter type id \n");
                 int type_id = scanner.nextInt();
-                System.out.print("enter item's cost_price\n");
+                System.out.print("Enter amount of the item type\n");
+                int amount = scanner.nextInt();
+                System.out.print("Enter item's cost price\n");
                 int cost_price = scanner.nextInt();
                 scanner.nextLine();
-                System.out.print("enter item's producer \n");
+                System.out.print("Enter item's producer \n");
                 String producer = scanner.next();
                 scanner.nextLine();
-                System.out.print("enter item's category \n");
+                System.out.print("Enter item's category \n");
                 String category = scanner.next();
                 scanner.nextLine();
-                System.out.print("enter item's sub-category \n");
+                System.out.print("Enter item's sub-category \n");
                 String sub_category = scanner.next();
                 scanner.nextLine();
-                System.out.print("enter item's size \n");
+                System.out.print("Enter item's size \n");
                 String size = scanner.next();
                 scanner.nextLine();
-                System.out.print("enter item's expiration date e.g: 12.12.2024 \n");
+                System.out.print("Enter item's expiration date e.g: 12.12.2024 \n");
                 String expiration_date = scanner.next();
                 scanner.nextLine();
-                System.out.print("enter item's creation date e.g: 12.12.2024\n");
+                System.out.print("Enter item's creation date e.g: 12.12.2024\n");
                 String creation_date = scanner.next();
                 scanner.nextLine();
-                System.out.print("enter item type supplier sale\n");
+                System.out.print("Enter item type supplier sale in percentage e.g 10% -> 10\n");
                 int supplier_sale = scanner.nextInt();
                 scanner.nextLine();
                 JsonObject json = new JsonObject();
@@ -362,6 +380,7 @@ public class System_user {
                 json.addProperty("size", size);
                 json.addProperty("exp_date", expiration_date);
                 json.addProperty("creation_date", creation_date);
+                json.addProperty("amount", amount);
                 jcontroller.add_item_shop(json);
                 print_menu_storekeeper();
             }
@@ -369,7 +388,7 @@ public class System_user {
                 return;
             }
             default -> {
-                System.out.print("invalid input, please try again\n");
+                System.out.print("Invalid input, please try again\n");
                 print_menu_storekeeper();
             }
         }

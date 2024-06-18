@@ -108,6 +108,38 @@ public class Supply {
         }
 
     }
+    public void supplyReportCategory(String category,String sub_category, String size){
+        if(category.compareTo("") == 0) {
+            supplyReport("");
+            return;
+        }
+        boolean size_exist = true;
+        if(sub_category.compareTo("") == 0) {
+            supplyReport(category);
+            return;
+        }
+        if(size.compareTo("") == 0 )
+            size_exist = false;
+        SupplyReport supplyReport = new SupplyReport(cur_date);
+        for (Item_type item_type : itemTypes) {
+            if (size_exist) {
+                if(item_type.getCategory().equals(category)
+                        && item_type.getSub_category().equals(sub_category)
+                        && item_type.getSize().equals(size))
+                {
+                    supplyReport.add_item_type(item_type);
+                }
+            }
+            else{
+                if(item_type.getCategory().equals(category)
+                        && item_type.getSub_category().equals(sub_category))
+                {
+                    supplyReport.add_item_type(item_type);
+                }
+            }
+        }
+        supplyReport.show();
+    }
 
     public void supplyReport(String category){
         SupplyReport supplyReport = new SupplyReport(cur_date);
@@ -120,10 +152,10 @@ public class Supply {
             for (Item_type item_type : itemTypes) {
                 String cur_item_category = item_type.getCategory();
                 boolean found = category.contains(cur_item_category);
-                if (found) // adding categories that has the same category given in the request
-                    supplyReport.add_item_type(item_type);
+                    if (found) // adding categories that has the same category given in the request
+                        supplyReport.add_item_type(item_type);
+                }
             }
-        }
         supplyReport.show();
     }
 
@@ -162,7 +194,7 @@ public class Supply {
     }
 
     public void add_newItem(int type_id, String producer, String category, String sub_category
-            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale){ // item type won't have different values, so adding new item will have same fields as any other item in its item type
+            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount){ // item type won't have different values, so adding new item will have same fields as any other item in its item type
         Item_type type=null;
         for (Item_type itemType : itemTypes) { // getting type of the item if exists
             if (itemType.getType_id() == type_id) {
@@ -173,16 +205,20 @@ public class Supply {
             type = new Item_type(type_id, producer, category, sub_category, size, cost_price,supplier_sale);
             this.itemTypes.add(type);
         }
-        Item new_item = new Item(type,exprdate, creation_date);
-        boolean added_to_shop = shop.add_to_shop(new_item);
-        if(added_to_shop){
-            type.setAmount_on_shelves(type.getAmount_on_shelves()+1);
+        boolean added_to_shop;
+        for (int i = 0; i < amount; i++) {
+            Item new_item = new Item(type,exprdate, creation_date);
+            added_to_shop = shop.add_to_shop(new_item);
+            if(added_to_shop){
+                type.setAmount_on_shelves(type.getAmount_on_shelves()+1);
+            }
+            else{
+                storage.addItem(new_item);
+                type.setAmount_in_storage(type.getAmount_in_storage()+1);
+                new_item.setLocation("storage");
+            }
         }
-        else{
-            storage.addItem(new_item);
-            type.setAmount_in_storage(type.getAmount_in_storage()+1);
-            new_item.setLocation("storage");
-        }
+
     }
     public void add_area_to_shop(String area_category){
         this.shop.add_area(area_category);

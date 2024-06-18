@@ -21,7 +21,7 @@ public class Main {
             System.out.print("1.Manager\n");
             System.out.print("2.Worker\n");
             System.out.print("3.Storekeeper\n");
-            System.out.print("4.load data of system\n"); //not for ordinary users,required option from assignment
+            System.out.print("4.Load data of system\n"); //not for ordinary users,required option from assignment
             System.out.print("5.Exit system\n");
             user_input = scanner.nextInt();
             switch (user_input) {
@@ -69,7 +69,7 @@ public class Main {
                     system_on = false;
                 }
                 default -> {
-                    System.out.print("enter correct value from given options\n");
+                    System.out.print("Enter correct value from given options\n");
                 }
             }
         }
