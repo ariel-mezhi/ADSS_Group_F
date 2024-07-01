@@ -2,15 +2,21 @@ package supply_domain;
 import java.util.ArrayList;
 import java.util.List;
 public class Shelf {
+
     private List<Item> items_on_shelf;
     private final String shelf_sub_category;
     private int amount_on_shelf;
     private int max_items;
+
     public Shelf(String shelf_sub_category) {
         this.max_items = 20; // default value for all shelves, was added as answer from clients
         amount_on_shelf = 0;
         this.shelf_sub_category = shelf_sub_category;
         items_on_shelf = new ArrayList<Item>();
+    }
+
+    public int getMax_items() {
+        return max_items;
     }
 
     public String getShelf_sub_category() {

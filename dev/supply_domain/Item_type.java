@@ -31,6 +31,24 @@ public class Item_type {
         this.supplier_sale = supplier_sale;
     }
 
+    public Item_type(int type_id, String producer, String category, String sub_category
+            , String size,int amount_on_shelves, int amount_in_storage,float selling_price, float cost_price
+            , int minimal_amount, int percentage_sale, int amount_of_days_left_sale, int supplier_sale) {
+        this.type_id = type_id;
+        this.producer = producer;
+        this.category = category;
+        this.sub_category = sub_category;
+        this.size = size;
+        this.amount_on_shelves = amount_on_shelves;
+        this.amount_in_storage = amount_in_storage;
+        this.minimal_amount = minimal_amount;
+        this.cost_price = cost_price;
+        this.selling_price = selling_price; // there isn't any provided selling price thus it will be set as default cost price
+        this.percentage_sale = percentage_sale;
+        this.amount_of_days_left_sale = amount_of_days_left_sale;
+        this.supplier_sale = supplier_sale;
+    }
+
     public int getMinimal_amount() {
         return minimal_amount;
     }
