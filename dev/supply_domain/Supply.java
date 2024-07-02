@@ -43,7 +43,9 @@ public class Supply {
         int supplier_sale;
         int amount;
         Item_type type;
+        int serial_number;
         for(Item item:this.item_repo.getAllItems()){
+            serial_number = item.getSerialNum();
             type = item.getType();
             type_id = type.getType_id();
             producer = type.getProducer();
@@ -56,7 +58,7 @@ public class Supply {
             supplier_sale = type.get_supplier_sale();
             amount = 1;
             this.add_newItem(type_id,producer,category,sub_category
-                    ,size,cost_price,exprdate,creation_date,supplier_sale,amount);
+                    ,size,cost_price,exprdate,creation_date,supplier_sale,amount,serial_number);
         }
     }
     public Item getItem(int serialNum) throws SQLException {
@@ -236,7 +238,7 @@ public class Supply {
     }
 
     public void add_newItem(int type_id, String producer, String category, String sub_category
-            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount) throws SQLException { // item type won't have different values, so adding new item will have same fields as any other item in its item type
+            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount, int serial_num) throws SQLException { // item type won't have different values, so adding new item will have same fields as any other item in its item type
         Item_type type=null;
         for (Item_type itemType : itemTypes) { // getting type of the item if exists
             if (itemType.getType_id() == type_id) {
@@ -249,7 +251,11 @@ public class Supply {
         }
         boolean added_to_shop;
         for (int i = 0; i < amount; i++) {
-            Item new_item = new Item(type,exprdate, creation_date);
+            Item new_item;
+            if(serial_num == -1)
+                new_item = new Item(type,exprdate, creation_date); // brand new item
+            else
+                new_item = new Item(type,exprdate, creation_date,serial_num); // item exists in DB
             if(this.item_repo.get(new_item.getSerialNum()) == null) // if new item is not in DB(can happen when loading for the first time)
                 this.item_repo.add(new_item);
             // the only situation where item is in DB but was asked to add to domain is when loading the domain, it

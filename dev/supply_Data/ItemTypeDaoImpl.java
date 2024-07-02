@@ -70,21 +70,23 @@ public class ItemTypeDaoImpl implements TypeDao{
 
     @Override
     public void update(Item_type item_type) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("UPDATE types SET name = ?, email = ? WHERE id = ?");
-        stmt.setInt(1, item_type.getType_id());
-        stmt.setString(2, item_type.getProducer());
-        stmt.setString(3, item_type.getCategory());
-        stmt.setString(4, item_type.getSub_category());
-        stmt.setString(5, item_type.getSize());
-        stmt.setInt(6, item_type.getAmount_on_shelves());
-        stmt.setInt(7, item_type.getAmount_in_storage());
-        stmt.setFloat(8,item_type.getSelling_price());
-        stmt.setFloat(9,item_type.getCost_price());
-        stmt.setInt(10, item_type.getMinimal_amount());
-        stmt.setInt(11, item_type.getPercentage_sale());
-        stmt.setInt(12, item_type.getAmount_of_days_left_sale());
-        stmt.setInt(13, item_type.get_supplier_sale());
-        stmt.executeUpdate();
+        PreparedStatement stmt = conn.prepareStatement("UPDATE types SET " +
+                "producer = ? , category = ? , sub_category = ? , size = ? , amount_on_shelves = ? , " +
+                "amount_in_storage = ? , selling_price = ? , cost_price = ? , minimal_amount = ? , percentage_sale = ? , " +
+                "amount_of_days_left_sale = ? , supplier_sale = ? WHERE type_id = ?");
+        stmt.setInt(13, item_type.getType_id());
+        stmt.setString(1, item_type.getProducer());
+        stmt.setString(2, item_type.getCategory());
+        stmt.setString(3, item_type.getSub_category());
+        stmt.setString(4, item_type.getSize());
+        stmt.setInt(5, item_type.getAmount_on_shelves());
+        stmt.setInt(6, item_type.getAmount_in_storage());
+        stmt.setFloat(7,item_type.getSelling_price());
+        stmt.setFloat(8,item_type.getCost_price());
+        stmt.setInt(9, item_type.getMinimal_amount());
+        stmt.setInt(10, item_type.getPercentage_sale());
+        stmt.setInt(11, item_type.getAmount_of_days_left_sale());
+        stmt.setInt(12, item_type.get_supplier_sale());
         stmt.executeUpdate();
     }
 }

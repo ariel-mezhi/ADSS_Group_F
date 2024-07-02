@@ -145,7 +145,7 @@ public class Jsoncontroller {
         month = Integer.parseInt(dateparts[1]);
         day = Integer.parseInt(dateparts[0]);
         Date create_date = new Date(year-1900,month-1,day);
-        supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date,supplier_sale,amount);
+        supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date,supplier_sale,amount,-1);
     }
 
     public void set_minimal_amount_type(JsonObject json) throws SQLException {
