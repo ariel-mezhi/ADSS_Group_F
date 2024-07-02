@@ -1,4 +1,5 @@
 package supply_presentation;
+import java.sql.SQLException;
 import java.util.Scanner;
 import com.google.gson.JsonObject;
 import supply_domain.Supply;
@@ -10,7 +11,7 @@ public class System_user {
         this.jcontroller = new Jsoncontroller(supply);
     }
 
-    public void print_menu_worker(){
+    public void print_menu_worker() throws SQLException {
         System.out.print("Hello, please choose one option from the following:\n");
         System.out.print("1.Remove item\n");
         System.out.print("2.Report faulty item \n");
@@ -19,7 +20,7 @@ public class System_user {
         get_answer_worker();
     }
 
-    public void get_answer_worker(){
+    public void get_answer_worker() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         int user_input = scanner.nextInt();
         switch (user_input) {
@@ -66,7 +67,7 @@ public class System_user {
         }
     }
 
-    public void print_menu_manager(){
+    public void print_menu_manager() throws SQLException {
         System.out.print("Hello, please choose one option from the following:\n");
         System.out.print("1.Get item location\n");
         System.out.print("2.Get item manufacturer\n");
@@ -92,7 +93,7 @@ public class System_user {
         get_answer_manager();
     }
 
-    public void get_answer_manager(){
+    public void get_answer_manager() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         int user_input = scanner.nextInt();
         switch (user_input) {
@@ -330,14 +331,14 @@ public class System_user {
         }
     }
 
-    public void print_menu_storekeeper(){
+    public void print_menu_storekeeper() throws SQLException {
         System.out.print("Hello, please choose one option from the following:\n");
         System.out.print("1.Add item to supply system\n");
         System.out.print("2.Exit \n");
         get_answer_storekeeper();
     }
 
-    public void get_answer_storekeeper(){
+    public void get_answer_storekeeper() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         int user_input = scanner.nextInt();
         switch (user_input) {

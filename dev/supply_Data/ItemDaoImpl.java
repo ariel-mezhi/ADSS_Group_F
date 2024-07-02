@@ -1,7 +1,6 @@
 package supply_Data;
 
 import supply_domain.Item;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +8,7 @@ import java.util.List;
 
 public class ItemDaoImpl implements ItemDao{
     private Connection conn;
+    private ItemTypeDaoImpl type_dao;
 
     public ItemDaoImpl() throws SQLException{
         conn = DataBase.connect();
@@ -34,7 +34,7 @@ public class ItemDaoImpl implements ItemDao{
             month = Integer.parseInt(dateparts[1]);
             day = Integer.parseInt(dateparts[0]);
             java.util.Date create_date = new Date(year-1900,month-1,day);
-            Item item = new Item(serial_num,type_id,exp_date,create_date);
+            Item item = new Item(serial_num,type_dao.read(type_id),exp_date,create_date);
             items.add(item);
         }
         return items;
@@ -49,7 +49,17 @@ public class ItemDaoImpl implements ItemDao{
             int type_id = rs.getInt("type id");
             String string_exp_date = rs.getString("expiration date");
             String string_creation_date = rs.getString("creation date");
-            return item; // when returning new item, if it already exists in runtime it will be discarded
+            String[] dateparts = string_exp_date.split("\\.");
+            int year = Integer.parseInt(dateparts[2]);
+            int month = Integer.parseInt(dateparts[1]);
+            int day = Integer.parseInt(dateparts[0]);
+            java.util.Date exp_date = new java.util.Date(year-1900,month-1,day);
+            dateparts = string_creation_date.split("\\.");
+            year = Integer.parseInt(dateparts[2]);
+            month = Integer.parseInt(dateparts[1]);
+            day = Integer.parseInt(dateparts[0]);
+            java.util.Date create_date = new Date(year-1900,month-1,day);
+            return new Item(serial_num,type_dao.read(type_id),exp_date,create_date);
         }
         else return null;
     }

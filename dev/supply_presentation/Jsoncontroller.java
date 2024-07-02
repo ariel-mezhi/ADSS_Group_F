@@ -4,6 +4,7 @@ import supply_domain.Item;
 import supply_domain.Item_type;
 import supply_domain.Supply;
 
+import java.sql.SQLException;
 import java.util.Date;
 public class Jsoncontroller {
     private Supply supply;
@@ -12,7 +13,7 @@ public class Jsoncontroller {
         this.supply = supply;
     }
 
-    public int get_serial_num (JsonObject json){
+    public int get_serial_num (JsonObject json) throws SQLException {
         int serialNum = json.get("serialnumber").getAsInt();
         if(this.supply.getItem(serialNum) != null )
             return serialNum;
@@ -23,7 +24,7 @@ public class Jsoncontroller {
         return json.get("type_id").getAsInt();
     }
 
-    public void report_faulty_item(JsonObject json){
+    public void report_faulty_item(JsonObject json) throws SQLException {
         int serialNum = get_serial_num(json);
         if(serialNum == -1) {
             System.out.print("item not exist\n");
@@ -33,7 +34,7 @@ public class Jsoncontroller {
         this.supply.set_faulty_item(serialNum,faulty_des);
     }
 
-    public float get_item_selling_price(JsonObject json){
+    public float get_item_selling_price(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         Item_type type = supply.getType(type_id);
         if (type == null)
@@ -41,14 +42,14 @@ public class Jsoncontroller {
         return type.getSelling_price();
     }
 
-    public String get_item_location(JsonObject json){
+    public String get_item_location(JsonObject json) throws SQLException {
         int serialNum = get_serial_num(json);
         if(serialNum == -1)
             return "item not exist\n";
         return supply.getItem(serialNum).getLocation() + "\n";
     }
 
-    public String get_item_manufacturer(JsonObject json){
+    public String get_item_manufacturer(JsonObject json) throws SQLException {
         int serial_Num = get_serial_num(json);
         if(serial_Num == -1)
             return " item not exist\n";
@@ -56,7 +57,7 @@ public class Jsoncontroller {
         return item.getType().getProducer();
     }
 
-    public int get_cur_amount_type(JsonObject json){
+    public int get_cur_amount_type(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         Item_type type = supply.getType(type_id);
         if (type == null)
@@ -64,7 +65,7 @@ public class Jsoncontroller {
         return type.get_total_amount();
     }
 
-    public int get_cur_amount_type_shelves(JsonObject json){
+    public int get_cur_amount_type_shelves(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         Item_type type = supply.getType(type_id);
         if (type == null)
@@ -72,7 +73,7 @@ public class Jsoncontroller {
         return type.getAmount_on_shelves();
     }
 
-    public int get_cur_amount_type_storage(JsonObject json){
+    public int get_cur_amount_type_storage(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         Item_type type = supply.getType(type_id);
         if (type == null)
@@ -80,7 +81,7 @@ public class Jsoncontroller {
         return type.getAmount_in_storage();
     }
 
-    public float get_item_cost_price(JsonObject json){
+    public float get_item_cost_price(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         Item_type type = supply.getType(type_id);
         if (type == null)
@@ -103,7 +104,7 @@ public class Jsoncontroller {
         supply.send_faulty_report();
     }
 
-    public void remove_item(JsonObject json){
+    public void remove_item(JsonObject json) throws SQLException {
         int serial_Num = get_serial_num(json);
         if(serial_Num == -1) {
             System.out.print("item not exist");
@@ -112,18 +113,18 @@ public class Jsoncontroller {
         supply.removeItem(serial_Num);
     }
 
-    public void pass_days(int days){
+    public void pass_days(int days) throws SQLException {
         supply.pass_days(days);
     }
 
-    public void set_sale(JsonObject json){
+    public void set_sale(JsonObject json) throws SQLException {
         int days = json.get("days").getAsInt();
         int percentage = json.get("percentage").getAsInt();
         int item_id = json.get("type_id").getAsInt();
         supply.set_sale(days,item_id,percentage);
     }
 
-    public void add_item_shop(JsonObject json){
+    public void add_item_shop(JsonObject json) throws SQLException {
         int supplier_sale = json.get("supplier_sale").getAsInt();
         int type_id = json.get("type_id").getAsInt();
         int cost_price = json.get("cost_price").getAsInt();
@@ -147,12 +148,12 @@ public class Jsoncontroller {
         supply.add_newItem(type_id,producer,category,sub_category,size,cost_price,exp_date,create_date,supplier_sale,amount);
     }
 
-    public void set_minimal_amount_type(JsonObject json){
+    public void set_minimal_amount_type(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         int minimal_amount = json.get("minimal_amount").getAsInt();
         supply.set_minimal_amount(type_id,minimal_amount);
     }
-    public void set_sale_categories(JsonObject json){ // setting sales on categories that not exist wont track them when they will be exist
+    public void set_sale_categories(JsonObject json) throws SQLException { // setting sales on categories that not exist wont track them when they will be exist
         int days = json.get("days").getAsInt();
         int percentage = json.get("percentage").getAsInt();
         String categories = json.get("categories").getAsString();
@@ -170,7 +171,7 @@ public class Jsoncontroller {
         supply.add_shelf_to_area(shelf_description,area_description);
     }
 
-    public void get_supplier_sale(JsonObject json){
+    public void get_supplier_sale(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         Item_type type = supply.getType(type_id);
         if (type == null) {
@@ -181,7 +182,7 @@ public class Jsoncontroller {
         System.out.print("the item type: " + type.getType_id() + " is buying in: " + supplier_sale + " percentage sale.\n");
     }
 
-    public void set_supplier_sale(JsonObject json){
+    public void set_supplier_sale(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         int new_supplier_sale = json.get("new_supplier_sale").getAsInt();
         Item_type type = supply.getType(type_id);
@@ -192,7 +193,7 @@ public class Jsoncontroller {
         supply.set_supplier_sale(type,new_supplier_sale);
     }
 
-    public void set_new_selling_price(JsonObject json){
+    public void set_new_selling_price(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         float new_selling_price = json.get("new_selling_price").getAsFloat();
         Item_type type = supply.getType(type_id);
@@ -203,7 +204,7 @@ public class Jsoncontroller {
         supply.set_selling_price(type,new_selling_price);
     }
 
-    public void set_new_cost_price(JsonObject json){
+    public void set_new_cost_price(JsonObject json) throws SQLException {
         int type_id = get_item_type(json);
         float new_cost_price = json.get("new_cost_price").getAsFloat();
         Item_type type = supply.getType(type_id);

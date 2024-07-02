@@ -20,6 +20,14 @@ public class Item {
         this.exp_date = exp;
         serialNumgenerator++;
     }
+    public Item(int Serial_num,Item_type type, Date exp, Date creation) {
+        this.shelf_of_item = null;
+        this.location = "";
+        this.type = type;
+        this.creation_date = creation;
+        this.exp_date = exp;
+        this.serialNum = Serial_num;
+    }
 
     public Shelf getShelf_of_item() {
         return shelf_of_item;

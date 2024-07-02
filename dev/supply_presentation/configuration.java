@@ -2,11 +2,12 @@ package supply_presentation;
 
 import supply_domain.Supply;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 
 public class configuration { // we assumed that the configuration can be managed by class with static method
-    public static void configure(Supply supply){
+    public static void configure(Supply supply) throws SQLException {
         supply.add_area_to_shop("dairy");
         supply.add_shelf_to_area("milk","dairy");
         Date date1 = new Date(2024, Calendar.JANUARY,1);

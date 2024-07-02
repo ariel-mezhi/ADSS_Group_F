@@ -1,4 +1,8 @@
 package supply_domain;
+import supply_Data.ItemRepositoryImpl;
+import supply_Data.TypeRepositoryImpl;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,9 +15,11 @@ public class Supply {
     private FaultyReport faultyReport;
     private Date cur_date;
     private int days_counter_from_report;
+    private ItemRepositoryImpl item_repo;
+    private TypeRepositoryImpl type_repo;
     private Calendar calendar;
 
-    public Supply(Date cur_date,Calendar calendar){
+    public Supply(Date cur_date,Calendar calendar) throws SQLException {
         this.cur_date = cur_date;
         this.faultyReport = new FaultyReport(cur_date);
         this.storage = new Storage();
@@ -21,24 +27,55 @@ public class Supply {
         itemTypes = new ArrayList<Item_type>();
         days_counter_from_report = 7;
         this.calendar = calendar;
+        this.item_repo = new ItemRepositoryImpl();
+        this.type_repo = new TypeRepositoryImpl();
     }
 
-    public Item getItem(int serialNum){
+    public void LoadFromDB() throws SQLException { // will occur only in start of runtime
+        int type_id;
+        String producer;
+        String category;
+        String sub_category;
+        String size;
+        float cost_price;
+        Date exprdate;
+        Date creation_date;
+        int supplier_sale;
+        int amount;
+        Item_type type;
+        for(Item item:this.item_repo.getAllItems()){
+            type = item.getType();
+            type_id = type.getType_id();
+            producer = type.getProducer();
+            category = type.getCategory();
+            sub_category = type.getSub_category();
+            size = type.getSize();
+            cost_price = type.getCost_price();
+            exprdate = item.getExp_date();
+            creation_date = item.getCreation_date();
+            supplier_sale = type.get_supplier_sale();
+            amount = 1;
+            this.add_newItem(type_id,producer,category,sub_category
+                    ,size,cost_price,exprdate,creation_date,supplier_sale,amount);
+        }
+    }
+    public Item getItem(int serialNum) throws SQLException {
         Item item1 = shop.getItem(serialNum);
         Item item2 = storage.getItem(serialNum);
         if (item1 == null && item2 == null)
-            return null;
+            return null; // add to runtime
         else if (item1 == null)
             return item2;
         else return item1;
     }
 
-    public void removeItem(int serialNum){
+    public void removeItem(int serialNum) throws SQLException {
         Item item = getItem(serialNum);
         if(item == null){
             return;
         }
         Item_type this_item_type = item.getType();
+        this.item_repo.remove(item);
         if(!item.getLocation().equals("storage")){ // item in shop
             item.getShelf_of_item().remove_from_shelf(item);
             this_item_type.setAmount_on_shelves(this_item_type.getAmount_on_shelves()-1);
@@ -49,11 +86,13 @@ public class Supply {
         }
         if(this_item_type.get_total_amount() <= this_item_type.getMinimal_amount()) {
             alert_low_quantity_item_type(this_item_type);
+            //TODO:send_to_order_shortage(this item type, int)
             System.out.print("\n");
         }
+        this.type_repo.update(this_item_type);
     }
 
-    public void set_minimal_amount(int item_id,int minimal_amount){
+    public void set_minimal_amount(int item_id,int minimal_amount) throws SQLException {
         Item_type item_type = getType(item_id);
         if(item_type == null){
             System.out.print("item type not exist\n");
@@ -62,6 +101,7 @@ public class Supply {
         if(minimal_amount < 0)
             minimal_amount = 0;
         item_type.setMinimal_amount(minimal_amount);
+        this.type_repo.update(item_type);
     }
 
     public void alert_low_quantity_item_type(Item_type item_type){
@@ -69,7 +109,7 @@ public class Supply {
         System.out.print("item id: " + item_id_str + " has low quantity and needs to be restocked\n");
     }
 
-    public void set_faulty_item(int serialNum, String faulty_description){
+    public void set_faulty_item(int serialNum, String faulty_description) throws SQLException {
         Item item = getItem(serialNum);
         if(item == null){
             System.out.print("item not exist\n");
@@ -84,7 +124,7 @@ public class Supply {
         this.faultyReport = new FaultyReport(cur_date);
     }
 
-    public void pass_days(int amount_of_days){ // this function will simulate time in this module, by our perception
+    public void pass_days(int amount_of_days) throws SQLException { // this function will simulate time in this module, by our perception
         if(amount_of_days <= 0)
             return;
         System.out.print(cur_date.toString());
@@ -105,6 +145,7 @@ public class Supply {
                 item_type.setAmount_of_days_left_sale(0);
                 item_type.setPercentage_sale(0);
             }
+            this.type_repo.update(item_type);
         }
 
     }
@@ -159,15 +200,15 @@ public class Supply {
         supplyReport.show();
     }
 
-    public Item_type getType(int type_id){
+    public Item_type getType(int type_id) throws SQLException {
         for (Item_type itemType : itemTypes) {
             if (type_id == itemType.getType_id())
                 return itemType;
         }
-        return null;
+        return this.type_repo.get(type_id);
     }
 
-    public void set_sale(int days,int type_id,int percentage){
+    public void set_sale(int days,int type_id,int percentage) throws SQLException {
         if(percentage <= 0)
             return;
         if (days <= 0)
@@ -179,10 +220,11 @@ public class Supply {
         }
         item_type.setPercentage_sale(percentage);
         item_type.setAmount_of_days_left_sale(days);
+        this.type_repo.update(item_type);
     }
 
 
-    public void set_sale_categories(int days,int percentage,String categories){
+    public void set_sale_categories(int days,int percentage,String categories) throws SQLException {
         int type_id;
         for (Item_type item_type : itemTypes) {
             String cur_item_type_category = item_type.getCategory();
@@ -194,7 +236,7 @@ public class Supply {
     }
 
     public void add_newItem(int type_id, String producer, String category, String sub_category
-            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount){ // item type won't have different values, so adding new item will have same fields as any other item in its item type
+            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount) throws SQLException { // item type won't have different values, so adding new item will have same fields as any other item in its item type
         Item_type type=null;
         for (Item_type itemType : itemTypes) { // getting type of the item if exists
             if (itemType.getType_id() == type_id) {
@@ -208,6 +250,10 @@ public class Supply {
         boolean added_to_shop;
         for (int i = 0; i < amount; i++) {
             Item new_item = new Item(type,exprdate, creation_date);
+            if(this.item_repo.get(new_item.getSerialNum()) == null) // if new item is not in DB(can happen when loading for the first time)
+                this.item_repo.add(new_item);
+            // the only situation where item is in DB but was asked to add to domain is when loading the domain, it
+            // won't add this item to repo again because it already exists.
             added_to_shop = shop.add_to_shop(new_item);
             if(added_to_shop){
                 type.setAmount_on_shelves(type.getAmount_on_shelves()+1);
@@ -217,6 +263,8 @@ public class Supply {
                 type.setAmount_in_storage(type.getAmount_in_storage()+1);
                 new_item.setLocation("storage");
             }
+            this.type_repo.update(type);
+
         }
 
     }
@@ -241,25 +289,28 @@ public class Supply {
         return item_type.get_supplier_sale();
     }
 
-    public void set_supplier_sale(Item_type item_type,int new_supplier_sale){
+    public void set_supplier_sale(Item_type item_type,int new_supplier_sale) throws SQLException {
         if(new_supplier_sale <= 0) {
             item_type.set_supplier_sale(0);
             return;
         }
         item_type.set_supplier_sale(new_supplier_sale);
+        this.type_repo.update(item_type);
     }
 
-    public void set_selling_price(Item_type item_type,float new_selling_price){
+    public void set_selling_price(Item_type item_type,float new_selling_price) throws SQLException {
         if(new_selling_price <= 0){
             return;
         }
         item_type.setSelling_price(new_selling_price);
+        this.type_repo.update(item_type);
     }
 
-    public void set_cost_price(Item_type item_type,float new_cost_price){
+    public void set_cost_price(Item_type item_type,float new_cost_price) throws SQLException {
         if(new_cost_price <= 0){
             return;
         }
         item_type.setCost_price(new_cost_price);
+        this.type_repo.update(item_type);
     }
 }

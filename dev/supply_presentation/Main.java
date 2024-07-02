@@ -1,12 +1,13 @@
 package supply_presentation;
 import supply_domain.Supply;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Scanner;
 
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException {
         boolean configured = false;
         boolean system_on = true;
         Scanner scanner = new Scanner(System.in);
@@ -15,6 +16,7 @@ public class Main {
         String password;
         Calendar calendar = Calendar.getInstance();
         Supply supply = new Supply(calendar.getTime(),calendar);
+        supply.LoadFromDB();
         System_user system_user = new System_user(supply);
         while(system_on) {
             System.out.print("Hello, welcome to supply system, please identify by entering number of the option:\n");
