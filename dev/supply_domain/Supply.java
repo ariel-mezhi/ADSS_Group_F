@@ -1,4 +1,5 @@
 package supply_domain;
+import org.sqlite.core.DB;
 import supply_Data.ItemRepositoryImpl;
 import supply_Data.TypeRepositoryImpl;
 
@@ -9,14 +10,15 @@ import java.util.Date;
 import java.util.List;
 
 public class Supply {
-    private Storage storage;
-    private Shop shop;
+    private static int serialNumgenerator;
+    private final Storage storage;
+    private final Shop shop;
     private List<Item_type> itemTypes;
     private FaultyReport faultyReport;
     private Date cur_date;
     private int days_counter_from_report;
-    private ItemRepositoryImpl item_repo;
-    private TypeRepositoryImpl type_repo;
+    private final ItemRepositoryImpl item_repo;
+    private final TypeRepositoryImpl type_repo;
     private Calendar calendar;
 
     public Supply(Date cur_date,Calendar calendar) throws SQLException {
@@ -31,65 +33,71 @@ public class Supply {
         this.type_repo = new TypeRepositoryImpl();
     }
 
-    public void LoadFromDB() throws SQLException { // will occur only in start of runtime
-        int type_id;
-        String producer;
-        String category;
-        String sub_category;
-        String size;
-        float cost_price;
-        Date exprdate;
-        Date creation_date;
-        int supplier_sale;
-        int amount;
-        Item_type type;
-        int serial_number;
-        for(Item item:this.item_repo.getAllItems()){
-            serial_number = item.getSerialNum();
-            type = item.getType();
-            type_id = type.getType_id();
-            producer = type.getProducer();
-            category = type.getCategory();
-            sub_category = type.getSub_category();
-            size = type.getSize();
-            cost_price = type.getCost_price();
-            exprdate = item.getExp_date();
-            creation_date = item.getCreation_date();
-            supplier_sale = type.get_supplier_sale();
-            amount = 1;
-            this.add_newItem(type_id,producer,category,sub_category
-                    ,size,cost_price,exprdate,creation_date,supplier_sale,amount,serial_number);
-        }
-    }
     public Item getItem(int serialNum) throws SQLException {
         Item item1 = shop.getItem(serialNum);
         Item item2 = storage.getItem(serialNum);
-        if (item1 == null && item2 == null)
-            return null; // add to runtime
+        if (item1 == null && item2 == null){
+            return this.item_repo.get(serialNum);
+            /*Item DB_item = this.item_repo.get(serialNum);
+            if(DB_item == null)
+                return null; // add to runtime
+            else{ // item doesn't exist in runtime but does exist in DB
+                int type_id = DB_item.getType().getType_id();
+                String producer = DB_item.getType().getProducer();
+                String category = DB_item.getType().getCategory();
+                String sub_category = DB_item.getType().getSub_category();
+                String size = DB_item.getType().getSize();
+                float cost_price = DB_item.getType().getCost_price();
+                Date exprdate = DB_item.getExp_date();
+                Date creation_date  = DB_item.getCreation_date();
+                int supplier_sale = DB_item.getType().get_supplier_sale();
+                int amount = 1;
+                add_newItem(type_id,producer,category,sub_category,size,cost_price,exprdate,creation_date,supplier_sale,amount,serialNum);
+                return getItem(serialNum); // item was added to shop or storage, this call will retrieve it
+            }
+            */
+        }
         else if (item1 == null)
             return item2;
         else return item1;
     }
 
+    public boolean find_item(Item item) throws SQLException {
+        String location = item.getLocation();
+        if(location.equals("storage")){
+            return this.storage.getItem(item.getSerialNum()) != null;
+        }
+        else{
+            return this.shop.getItem(item.getSerialNum()) != null;
+        }
+    }
+
+
     public void removeItem(int serialNum) throws SQLException {
         Item item = getItem(serialNum);
-        if(item == null){
-            return;
-        }
-        Item_type this_item_type = item.getType();
+        boolean found_in_runtime = find_item(item);
         this.item_repo.remove(item);
-        if(!item.getLocation().equals("storage")){ // item in shop
-            item.getShelf_of_item().remove_from_shelf(item);
-            this_item_type.setAmount_on_shelves(this_item_type.getAmount_on_shelves()-1);
+        Item_type this_item_type = item.getType();
+        if(found_in_runtime){
+            if(!item.getLocation().equals("storage")){ // item in shop
+                item.getShelf_of_item().remove_from_shelf(item);
+                this_item_type.setAmount_on_shelves(this_item_type.getAmount_on_shelves()-1);
+            }
+            else{ // item in storage
+                storage.removeItem(item);
+                this_item_type.setAmount_in_storage(this_item_type.getAmount_in_storage()-1);
+            }
+            if(this_item_type.get_total_amount() <= this_item_type.getMinimal_amount()) {
+                alert_low_quantity_item_type(this_item_type);
+                //TODO:send_to_order_shortage(this item type, int)
+                System.out.print("\n");
+            }
         }
-        else{ // item in storage
-            storage.removeItem(item);
-            this_item_type.setAmount_in_storage(this_item_type.getAmount_in_storage()-1);
-        }
-        if(this_item_type.get_total_amount() <= this_item_type.getMinimal_amount()) {
-            alert_low_quantity_item_type(this_item_type);
-            //TODO:send_to_order_shortage(this item type, int)
-            System.out.print("\n");
+        else{ // wasnt found in runtime
+            if(item.getLocation().equals("storage"))
+                this_item_type.setAmount_in_storage(this_item_type.getAmount_in_storage()-1);
+            else
+                this_item_type.setAmount_on_shelves(this_item_type.getAmount_on_shelves()-1);
         }
         this.type_repo.update(this_item_type);
     }
@@ -207,7 +215,7 @@ public class Supply {
             if (type_id == itemType.getType_id())
                 return itemType;
         }
-        return this.type_repo.get(type_id);
+        return this.type_repo.get(type_id); // assuming data of type on DB is correct
     }
 
     public void set_sale(int days,int type_id,int percentage) throws SQLException {
@@ -238,7 +246,7 @@ public class Supply {
     }
 
     public void add_newItem(int type_id, String producer, String category, String sub_category
-            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount, int serial_num) throws SQLException { // item type won't have different values, so adding new item will have same fields as any other item in its item type
+            , String size, float cost_price, Date exprdate, Date creation_date, int supplier_sale, int amount) throws SQLException { // item type won't have different values, so adding new item will have same fields as any other item in its item type
         Item_type type=null;
         for (Item_type itemType : itemTypes) { // getting type of the item if exists
             if (itemType.getType_id() == type_id) {
@@ -246,20 +254,25 @@ public class Supply {
             }
         }
         if(type == null){ // type not exist, therefore creates for the type a new item_type
-            type = new Item_type(type_id, producer, category, sub_category, size, cost_price,supplier_sale);
+            type = this.type_repo.get(type_id);
+            if(type == null) {
+                type = new Item_type(type_id, producer, category, sub_category, size, cost_price,supplier_sale);
+                this.type_repo.add(type);
+            }
             this.itemTypes.add(type);
         }
         boolean added_to_shop;
         for (int i = 0; i < amount; i++) {
             Item new_item;
-            if(serial_num == -1)
-                new_item = new Item(type,exprdate, creation_date); // brand new item
-            else
-                new_item = new Item(type,exprdate, creation_date,serial_num); // item exists in DB
-            if(this.item_repo.get(new_item.getSerialNum()) == null) // if new item is not in DB(can happen when loading for the first time)
-                this.item_repo.add(new_item);
-            // the only situation where item is in DB but was asked to add to domain is when loading the domain, it
-            // won't add this item to repo again because it already exists.
+
+            while(true){ // generating serial number that doesn't exist
+                if(this.item_repo.get(serialNumgenerator) == null)
+                    break;
+                else
+                    serialNumgenerator++;
+            }
+            new_item = new Item(type,exprdate, creation_date,serialNumgenerator); // item exists in DB
+            this.item_repo.add(new_item);
             added_to_shop = shop.add_to_shop(new_item);
             if(added_to_shop){
                 type.setAmount_on_shelves(type.getAmount_on_shelves()+1);

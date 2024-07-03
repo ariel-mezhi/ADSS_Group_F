@@ -16,7 +16,6 @@ public class Main {
         String password;
         Calendar calendar = Calendar.getInstance();
         Supply supply = new Supply(calendar.getTime(),calendar);
-        supply.LoadFromDB();
         System_user system_user = new System_user(supply);
         while(system_on) {
             System.out.print("Hello, welcome to supply system, please identify by entering number of the option:\n");

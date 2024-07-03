@@ -6,27 +6,18 @@ public class Item {
     private final Item_type type;
     private String location;
     private Shelf shelf_of_item;
-    private static int serialNumgenerator;
     private final Date exp_date;
     private final Date creation_date;
 
 
-    public Item(Item_type type, Date exp, Date creation) {
-        this.shelf_of_item = null;
-        this.serialNum = serialNumgenerator;
-        this.location = "";
-        this.type = type;
-        this.creation_date = creation;
-        this.exp_date = exp;
-        serialNumgenerator++;
-    }
+
     public Item(Item_type type, Date exp, Date creation,int Serial_num) {
         this.shelf_of_item = null;
         this.location = "";
-        this.type = type;
-        this.creation_date = creation;
         this.exp_date = exp;
+        this.creation_date = creation;
         this.serialNum = Serial_num;
+        this.type = type;
     }
 
 

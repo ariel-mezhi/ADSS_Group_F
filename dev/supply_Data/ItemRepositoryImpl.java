@@ -13,11 +13,6 @@ public class ItemRepositoryImpl implements ItemRepository{
     }
 
     @Override
-    public List<Item> getAllItems() throws SQLException {
-        return this.ItemDaoimpl.getAllItems();
-    }
-
-    @Override
     public Item get(int serial_num) throws SQLException {
         return this.ItemDaoimpl.read(serial_num);
     }
