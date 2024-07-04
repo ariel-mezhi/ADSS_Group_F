@@ -3,7 +3,7 @@ package supply_Data;
 import java.sql.*;
 
 public class DataBase {
-    private static final String DB_URL = "jdbc:sqlite:C:/Users/omert/Desktop/sem4 project/ADSS_Group_F/MyDataBase.db";
+    private static final String DB_URL = "jdbc:sqlite:C:/Users/Yuval Ellins/Desktop/projects/ADSS_Group_F/MyDataBase.db";
     // yuval url: jdbc:sqlite:C:/Users/Yuval Ellins/Desktop/projects/ADSS_Group_F/MyDataBase.db
     // omer url : jdbc:sqlite:C:/Users/omert/Desktop/sem4 project/ADSS_Group_F/MyDataBase.db
     public static Connection connect() throws SQLException{

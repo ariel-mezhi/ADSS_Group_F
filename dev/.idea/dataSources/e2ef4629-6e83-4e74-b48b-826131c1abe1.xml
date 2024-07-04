@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-07-04.08:31:01</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-04.12:36:46</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1590,37 +1590,121 @@
     <argument id="554" parent="190">
       <Position>1</Position>
     </argument>
-    <table id="555" parent="191" name="sqlite_master">
+    <table id="555" parent="191" name="items"/>
+    <table id="556" parent="191" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="556" parent="191" name="sqlite_sequence">
+    <table id="557" parent="191" name="sqlite_sequence">
       <System>1</System>
     </table>
-    <column id="557" parent="555" name="type">
-      <DasType>TEXT|0s</DasType>
+    <table id="558" parent="191" name="types"/>
+    <column id="559" parent="555" name="serial_number">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="558" parent="555" name="name">
-      <DasType>TEXT|0s</DasType>
+    <column id="560" parent="555" name="type_id">
+      <DasType>INTEGER|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="559" parent="555" name="tbl_name">
+    <column id="561" parent="555" name="expiration_date">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="560" parent="555" name="rootpage">
-      <DasType>INT|0s</DasType>
+    <column id="562" parent="555" name="creation_date">
+      <DasType>TEXT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="561" parent="555" name="sql">
+    <column id="563" parent="555" name="location">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="562" parent="556" name="name">
+    <key id="564" parent="555">
+      <ColNames>serial_number</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="565" parent="556" name="type">
+      <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="563" parent="556" name="seq">
+    <column id="566" parent="556" name="name">
+      <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
+    <column id="567" parent="556" name="tbl_name">
+      <DasType>TEXT|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="568" parent="556" name="rootpage">
+      <DasType>INT|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="569" parent="556" name="sql">
+      <DasType>TEXT|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="570" parent="557" name="name">
+      <Position>1</Position>
+    </column>
+    <column id="571" parent="557" name="seq">
+      <Position>2</Position>
+    </column>
+    <column id="572" parent="558" name="type_id">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>INTEGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="573" parent="558" name="producer">
+      <DasType>TEXT|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="574" parent="558" name="category">
+      <DasType>TEXT|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="575" parent="558" name="sub_category">
+      <DasType>TEXT|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="576" parent="558" name="size">
+      <DasType>TEXT|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="577" parent="558" name="amount_on_shelves">
+      <DasType>INTEGER|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="578" parent="558" name="amount_in_storage">
+      <DasType>INTEGER|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="579" parent="558" name="selling_price">
+      <DasType>FLOAT|0s</DasType>
+      <Position>8</Position>
+    </column>
+    <column id="580" parent="558" name="cost_price">
+      <DasType>FLOAT|0s</DasType>
+      <Position>9</Position>
+    </column>
+    <column id="581" parent="558" name="minimal_amount">
+      <DasType>INTEGER|0s</DasType>
+      <Position>10</Position>
+    </column>
+    <column id="582" parent="558" name="percentage_sale">
+      <DasType>INTEGER|0s</DasType>
+      <Position>11</Position>
+    </column>
+    <column id="583" parent="558" name="amount_of_days_left_sale">
+      <DasType>INTEGER|0s</DasType>
+      <Position>12</Position>
+    </column>
+    <column id="584" parent="558" name="supplier_sale">
+      <DasType>INTEGER|0s</DasType>
+      <Position>13</Position>
+    </column>
+    <key id="585" parent="558">
+      <ColNames>type_id</ColNames>
+      <Primary>1</Primary>
+    </key>
   </database-model>
 </dataSource>
