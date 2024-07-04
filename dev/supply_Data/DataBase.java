@@ -3,7 +3,7 @@ package supply_Data;
 import java.sql.*;
 
 public class DataBase {
-    private static final String DB_URL = "yuval url: jdbc:sqlite:C:/Users/Yuval Ellins/Desktop/projects/ADSS_Group_F/MyDataBase.db";
+    private static final String DB_URL = "jdbc:sqlite:C:/Users/omert/Desktop/sem4 project/ADSS_Group_F/MyDataBase.db";
     // yuval url: jdbc:sqlite:C:/Users/Yuval Ellins/Desktop/projects/ADSS_Group_F/MyDataBase.db
     // omer url : jdbc:sqlite:C:/Users/omert/Desktop/sem4 project/ADSS_Group_F/MyDataBase.db
     public static Connection connect() throws SQLException{
@@ -18,7 +18,8 @@ public class DataBase {
                  serial_number INTEGER PRIMARY KEY AUTOINCREMENT,
                  type_id INTEGER,
                  expiration_date TEXT,
-                 creation_date TEXT
+                 creation_date TEXT,
+                 location TEXT
                 );""";
         String sql1 = """
                 CREATE TABLE IF NOT EXISTS types (
@@ -50,7 +51,7 @@ public class DataBase {
     }
 
     public static void insertItem() throws SQLException {
-        String sql = "INSERT INTO items (serial_number, type_id, expiration_date, creation_date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO items (serial_number, type_id, expiration_date, creation_date,location) VALUES (?, ?, ?, ?,?)";
         try (Connection conn = connect();
         PreparedStatement stmt = conn.prepareStatement
                 (sql)) {
@@ -59,6 +60,7 @@ public class DataBase {
             stmt.setInt(2, 10);
             stmt.setString(3, "1.1.1111");
             stmt.setString(4, "1.1.1111");
+            stmt.setString(5, "storage");
             stmt.executeUpdate();
 
             // Insert second item
@@ -66,6 +68,7 @@ public class DataBase {
             stmt.setInt(2, 10);
             stmt.setString(3, "1.1.1111");
             stmt.setString(4, "1.1.1111");
+            stmt.setString(5, "storage");
             stmt.executeUpdate();
 
             // Insert third item
@@ -73,6 +76,7 @@ public class DataBase {
             stmt.setInt(2, 20);
             stmt.setString(3, "1.1.1111");
             stmt.setString(4, "1.1.1111");
+            stmt.setString(5, "storage");
             stmt.executeUpdate();
         }
         catch (SQLException e) {
@@ -89,7 +93,7 @@ public class DataBase {
             stmt.setString(4, "milk");
             stmt.setString(5, "100ml");
             stmt.setInt(6, 0);
-            stmt.setInt(7, 0);
+            stmt.setInt(7, 2);
             stmt.setFloat(8, 7);
             stmt.setFloat(9, 7);
             stmt.setInt(10, 2);
@@ -104,7 +108,7 @@ public class DataBase {
             stmt.setString(4, "stake");
             stmt.setString(5, "100g");
             stmt.setInt(6, 0);
-            stmt.setInt(7, 0);
+            stmt.setInt(7, 1);
             stmt.setFloat(8, 10);
             stmt.setFloat(9, 10);
             stmt.setInt(10, 1);

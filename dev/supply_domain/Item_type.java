@@ -43,7 +43,7 @@ public class Item_type {
         this.amount_in_storage = amount_in_storage;
         this.minimal_amount = minimal_amount;
         this.cost_price = cost_price;
-        this.selling_price = selling_price; // there isn't any provided selling price thus it will be set as default cost price
+        this.selling_price = selling_price;
         this.percentage_sale = percentage_sale;
         this.amount_of_days_left_sale = amount_of_days_left_sale;
         this.supplier_sale = supplier_sale;
@@ -63,7 +63,7 @@ public class Item_type {
 
 
     public String getProducer() {
-        return producer + "\n";
+        return producer ;
     }
 
     public String getCategory() {
@@ -136,6 +136,19 @@ public class Item_type {
 
     public void set_supplier_sale(int new_supplier_sale){
         this.supplier_sale = new_supplier_sale;
+    }
+
+    public String get_type_information(){
+        int order_amount = 2 * this.getMinimal_amount() - this.get_total_amount();
+        if(order_amount == 0)
+            order_amount = 1;
+        return "Item's information:\n"
+                + "1.Type id: " + this.type_id + "\n"
+                + "2.Producer: " + this.getProducer() + "\n"
+                + "3.Category: " + this.getCategory() + "\n"
+                + "4.Sub category: " + this.getSub_category() + "\n"
+                + "5.Size: " + this.getSize() + "\n"
+                + "5.Amount to order: " + order_amount + " \nSending order.....\n";
     }
 }
 

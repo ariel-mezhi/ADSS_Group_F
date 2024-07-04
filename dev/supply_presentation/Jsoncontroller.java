@@ -89,13 +89,13 @@ public class Jsoncontroller {
         return type.getCost_price();
     }
 
-    public void create_supply_report_Category(JsonObject json){
+    public void create_supply_report_Category(JsonObject json) throws SQLException {
         String categories = json.get("categories").getAsString();
         String sub_categories = json.get("sub_categories").getAsString();
         String sizes = json.get("sizes").getAsString();
         supply.supplyReportCategory(categories,sub_categories,sizes);
     }
-    public void create_supply_report(JsonObject json){
+    public void create_supply_report(JsonObject json) throws SQLException {
         String categories = json.get("categories").getAsString();
         supply.supplyReport(categories);
     }

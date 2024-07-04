@@ -3,10 +3,9 @@ package supply_Data;
 import supply_domain.Item;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class ItemRepositoryImpl implements ItemRepository{
-    private ItemDaoImpl ItemDaoimpl;
+    private final ItemDaoImpl ItemDaoimpl;
 
     public ItemRepositoryImpl() throws SQLException {
         this.ItemDaoimpl = new ItemDaoImpl();

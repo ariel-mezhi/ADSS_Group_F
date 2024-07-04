@@ -20,6 +20,15 @@ public class Item {
         this.type = type;
     }
 
+    public Item(Item_type type, Date exp, Date creation,int Serial_num,String location) {
+        this.shelf_of_item = null;
+        this.location = location;
+        this.exp_date = exp;
+        this.creation_date = creation;
+        this.serialNum = Serial_num;
+        this.type = type;
+    }
+
 
 
     public Shelf getShelf_of_item() {
