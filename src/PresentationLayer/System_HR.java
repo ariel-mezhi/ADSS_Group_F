@@ -10,8 +10,8 @@ public class System_HR {
     public Service service;
     private Scanner scanner;
 
-    public System_HR() {
-        this.scanner = new Scanner(System.in);
+    public System_HR(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void printMenu() {

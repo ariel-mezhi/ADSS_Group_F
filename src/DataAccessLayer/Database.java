@@ -3,7 +3,8 @@ package DataAccessLayer;
 import java.sql.*;
 
 public class Database {
-    private static final String DB_URL = "jdbc:sqlite:C:/Users/מתן איסר/Desktop/projectNituz/projectDataBase.db";
+    private static final String DB_URL = "jdbc:sqlite:C:\\Users\\omert\\Desktop\\adss_f_final_ver\\ADSS_Group_F\\projectDataBase.db";
+    // matan url: jdbc:sqlite:C:/Users/מתן איסר/Desktop/projectNituz/projectDataBase.db
     private static Connection connection = null;
 
     private Database() {}
@@ -23,11 +24,6 @@ public class Database {
             connection = null;
         }
     }
-
-
-
-
-
 
 
 

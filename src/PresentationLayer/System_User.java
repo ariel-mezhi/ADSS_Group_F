@@ -1,9 +1,7 @@
 package PresentationLayer;
-import DomainLayer.Supply;
-import ServiceLayer.*;
 
+import ServiceLayer.*;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class System_User {
@@ -13,6 +11,7 @@ public class System_User {
     public boolean isStoreKeeper;
     public System_storeKeeper systemStoreKeeper;
     public Service service;
+    public Scanner scanner;
 
     public System_User(System_storeKeeper systemStoreKeeper){
         this.systemStoreKeeper = systemStoreKeeper;
@@ -42,13 +41,12 @@ public class System_User {
 
     public void getAnswer() throws SQLException {
         int input;
-        Scanner scanner = new Scanner(System.in);
         try {
             input = scanner.nextInt();
         }catch (Exception e){
             input = -1;
         }
-        scanner.nextLine();
+        String a = scanner.nextLine();
         switch (input) {
             case 0 -> {
                 if (!isStoreKeeper){

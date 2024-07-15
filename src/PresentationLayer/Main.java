@@ -23,9 +23,11 @@ public class Main {
         System_SM systemSm = new System_SM(jc);
         System_storeKeeper systemStoreKeeper = new System_storeKeeper(jc);
         System_User system_user = new System_User(systemStoreKeeper);
-        System_HR system_hr = new System_HR();
+        System_HR system_hr = new System_HR(scanner);
         System_TM system_tm = new System_TM();
         system_user.service = service;
+        system_user.scanner = scanner;
+        systemStoreKeeper.scanner = scanner;
         system_hr.service = service;
         system_tm.service = service;
 

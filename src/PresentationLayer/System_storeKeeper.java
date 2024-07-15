@@ -7,7 +7,8 @@ import com.google.gson.JsonObject;
 import DomainLayer.*;
 
 public class System_storeKeeper {
-    private Jsoncontroller jcontroller;
+    public Jsoncontroller jcontroller;
+    public Scanner scanner;
 
     public System_storeKeeper(Jsoncontroller jc){
         this.jcontroller = jc;
@@ -24,7 +25,6 @@ public class System_storeKeeper {
     }
 
     public void get_answer_storekeeper() throws SQLException {
-        Scanner scanner = new Scanner(System.in);
         int user_input = scanner.nextInt();
         switch (user_input) {
             case 1 -> {
